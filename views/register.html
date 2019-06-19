@@ -1,0 +1,66 @@
+<!-- the website -->
+<h1>Sign Up for out website!</h1>
+<div ng-controller="createController" >
+    <form name="createForm" data-ng-init="load()" ng-submit="submit()"  novalidate>
+        UserName:
+        <input type="text" name="username" ng-model="username" pattern="[a-zA-Z]*" required ng-minlength="3" ng-maxlength="8">
+        <span ng-show="createForm.username.$error.required">This is required! </span>
+        <span ng-show="createForm.username.$error.minlength">Minimum length is 3 </span>
+        <span ng-show="createForm.username.$error.maxlength">Maximum length is 8 </span>
+        <span ng-show="createForm.username.$error.pattern">user name should contain only letters! </span>
+        <br><br>
+        Password:
+        <input type="password" name="password" ng-model="password" pattern="^[A-Za-z0-9]+$" required ng-minlength="5" ng-maxlength="10">
+        <span ng-show="createForm.password.$error.required">This is required! </span>
+        <span ng-show="createForm.password.$error.minlength">Minimum length is 5 </span>
+        <span ng-show="createForm.password.$error.maxlength">Maximum length is 10 </span>
+        <span ng-show="createForm.password.$error.pattern">password should contain only letters and numbers! </span>
+        <br><br>
+        Re-enter Password:
+        <input type="password" name="repassword" ng-model="repassword" required ng-minlength="5" ng-maxlength="10">
+        <span ng-show="createForm.repassword.$error.required">This is required! </span>
+        <span ng-show="createForm.repassword.$error.minlength">Minimum length is 5 </span>
+        <span ng-show="createForm.repassword.$error.maxlength">Maximum length is 10 </span><br><br>
+        First Name:
+        <input type="text" name="firstname" ng-model="firstname" pattern="[a-zA-Z]*" required >
+        <span ng-show="createForm.firstname.$error.required">This is required! </span>
+        <span ng-show="createForm.firstname.$error.pattern">Name need to contain only letters!</span><br><br>
+        Last Name:
+        <input type="text" name="lastname" ng-model="lastname" pattern="[a-zA-Z]*" required>
+        <span ng-show="createForm.lastname.$error.required">This is required! </span>
+        <span ng-show="createForm.lastname.$error.pattern">Name need to contain only letters!</span><br><br>
+        City:
+        <input type="text" name="city" ng-model="city" required>
+        <span ng-show="createForm.city.$error.required">This is required! </span><br><br>
+        Country:
+        <select id="country" ng-model="selectedName" ng-options="item for item in names"  >
+        </select><br><br>
+        <span ng-show="createForm.country.$error.required">This is required! </span>
+        <span ng-show="createForm.country.$invalid">Invalid field</span><br><br>
+
+        Email:
+        <input type="text" name="email" ng-model="email" placeholder="name@mail.com" required ng-pattern="mailpattern">
+        <span ng-show="createForm.email.$error.required">This is required! </span>
+        <span ng-show="createForm.email.$error.pattern">Invalid field mail form is:name@mail.com</span><br><br>
+        Points of interest:
+        <!-- todo: select minimum 2 points!-->
+        <select multiple name="Points" id="Points" ng-model="selectedPOI" ng-options="item for item in pointOfInterests">
+        </select>
+        <span ng-show="createForm.Points.$error.required">This is required! </span>
+        <span ng-show="createForm.Points.$invalid">Invalid field</span><br><br>
+       
+        <button ng-click="addfield()">Add Validation Question</button><br><!--to do- add dynamically-->
+
+        Validation Question:
+        <input type="text" name="question" ng-model="question" required>
+        <span ng-show="createForm.question.$error.required">This is required! </span>
+        <span ng-show="createForm.question.$invalid">Invalid field</span><br><br>
+        Validation Answer:
+        <input type="text" name="answer" ng-model="answer" required>
+        <span ng-show="createForm.answer.$error.required">This is required! </span>
+        <span ng-show="createForm.answer.$invalid">Invalid field</span><br><br>
+
+        <input ng-disabled="createForm.$invalid" type="submit" id="submit" value="submit" >
+    </form>
+    {{answerFromServer}}
+</div>

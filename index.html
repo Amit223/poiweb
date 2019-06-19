@@ -1,0 +1,57 @@
+<html>
+
+<head>
+    <title>My Website</title>
+</head>
+
+<body ng-app="myApp">
+    <!-- load angular -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.js"></script>
+    <script src="https://code.angularjs.org/1.7.8/angular-route.js"></script>
+
+    <!-- load app -->
+    <script src="app.js"></script>
+    <!-- <script src="liad.js"></script> -->
+
+    <!-- load controller -->
+    <script src="views/Controllers.js"></script>
+
+    <!--load Services-->
+    <script src="views/Services.js"></script>
+
+
+
+    <!-- the website -->
+    <h1>My Website</h1>
+    <div ng-Controller="MainController">
+        <p>Hello {{currName}} !</p>
+    </div>
+    <div ng-hide="checkConnection">
+        <h3>Please login to the site in order to use it:</h3>
+        <a href="#!login">Login</a>
+        <h3>if you are not registered yet, please register in:</h3>
+        <a href="#!register">Register</a>
+    </div>
+
+    <!-- menu -->
+    <ul>
+        <li>
+            <a href="#!">Home</a>
+        </li>
+        <li>
+            <a href="#!about">About</a>
+        </li>
+        <li >
+            <a href="#!poi">Point Of Interest</a>
+        </li>
+    </ul>
+
+    </div>
+
+
+    <!-- This section changes as the hashbang changes -->
+    <div ng-view></div>
+
+</body>
+
+</html>
