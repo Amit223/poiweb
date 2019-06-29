@@ -34,7 +34,6 @@ angular.module("myApp")
                     var categoriesNames = $scope.selectedCat;
                     var user=$scope.username;
                     for (var i = 0; i < categoriesNames.length; i++) {
-                        console.log("adding" + i + " category:"+ categoriesNames[i]+"to:"+user);
                         var object = { username:user , category: categoriesNames[i] };
                         regService.addCategoryToUser(object).
                             then(function (response) {
