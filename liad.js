@@ -110,11 +110,17 @@ app.post("/create/:obj", (req, res) => {
     var email = jsonObj.email;
     var city = jsonObj.city;
     var country = jsonObj.counrty;
+    var q1 = jsonObj.q1;
+    var a1 = jsonObj.a1;
+    var q2 = jsonObj.q2;
+    var a2 = jsonObj.a2;
 
 
-    var sql = "INSERT INTO Users (UserName, FirstName, LastName, City, Country, Email, Password, QuestionAutentication, AnswerAutentication) " +
+
+
+    var sql = "INSERT INTO Users (UserName, FirstName, LastName, City, Country, Email, Password, QuestionOne, AnswerOne ,QuestionTwo ,AnswerTwo) " +
         "VALUES ('" + username + "', '" + firstname + "', '" + lastname + "', '" + city + "', '" + country
-        + "', '" + email + "', '" + password + "')";
+        + "', '" + email + "', '" + password + "', '" + q1 + "', '" + a1 + "', '" + q2 + "', '" + a2 + "')";
 
     con.query(sql, function (err, result) {
         if (err) res.status(400).send("User Registered!");
@@ -124,7 +130,7 @@ app.post("/create/:obj", (req, res) => {
 
 });
 
-
+//todo
 app.post("/restorePassword/:obj", (req, res, next) => {
     var obj = req.params['obj'];
     var jsonObj = JSON.parse(obj);
@@ -187,6 +193,18 @@ app.post("/saveToFavorites/:obj", (req, res, next) => {
     });
 });
 
+
+app.post("/addCategoryToUser/:obj", (req, res, next) => {
+    var obj = req.params['obj'];
+    var jsonObj = JSON.parse(obj);
+    var username = jsonObj.username;
+    var category = jsonObj.category;
+    var sql = "INSERT INTO UserCategory (UserName, CategoryName) " + "VALUES ('" + username + "', '" + category + "')";
+    DButilsAzure.execQuery(sql).then(function (value2) {
+        res.status(200).send("Success!");
+        next();
+    });
+});
 
 app.post("/deleteFromFavorites/:obj", (req, res, next) => {
     var obj = req.params['obj'];
@@ -436,3 +454,19 @@ app.get("/getPointOfInterests", (req, res, next) => {
     });
 
 });
+app.get("/getPointOfInterestsCategories", (req, res, next) => {
+
+    var sql3 = "SELECT Name FROM Catagories"
+    console.log(sql3);
+    DButilsAzure.execQuery(sql3).then(function (value3) {
+        var points = new Array();
+        for (var i = 0; i < value3.length; i++) {//push all categories to array
+            points.push(value3[i]);
+        }
+        res.status(200).send(points);
+        next();
+
+
+    });
+});
+

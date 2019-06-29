@@ -3,25 +3,58 @@ angular.module("myApp")
     .controller("createController", ['regService', '$scope', function (regService, $scope) {
         let self = this;
         $scope.mailpattern = /.+\@.+\..+/;
-
+        $scope.check = function () {
+            console.log($scope.selectedCat)
+        }
         $scope.submit = function () {
-            if ($scope.password == $scope.repassword) {
-                var obj = {
-                    username: $scope.username, password: $scope.password,
-                    first: $scope.firstname, last: $scope.lastname, email: $scope.email,
-                    city: $scope.city, country: $scope.country
-                };
-                regService.register(obj).
-                    then(function (response) {
-                        if (response.status == 200) {
-                            //need to add the points of interest to user.
-                        }
-                        else {
-                            $scope.answerFromServer = response.status;
-                        }
-                        //window.alert($scope.answerFromServer);
-                    });
+            var countrynameaetra = JSON.stringify($scope.selectedName);
+            var countryname = countrynameaetra.substring(1, countrynameaetra.length - 1)
 
+            if ($scope.password == $scope.repassword) {
+                if ($scope.selectedCat.length >= 2) {
+                    var obj = {
+                        username: $scope.username, password: $scope.password,
+                        first: $scope.firstname, last: $scope.lastname, email: $scope.email,
+                        city: $scope.city, counrty: countryname, q1: $scope.question1, a1: $scope.answer1,
+                        q2: $scope.question2, a2: $scope.answer2
+                    };
+                    regService.register(obj).
+                        then(function (response) {
+                            if (response.status == 200) {
+
+                            }
+                            else {
+
+                                $scope.answerFromServer = response.status;
+                                return;
+                            }
+                            //window.alert($scope.answerFromServer);
+                        });
+                    //add all categories
+                    var categoriesNames = $scope.selectedCat;
+                    var user=$scope.username;
+                    for (var i = 0; i < categoriesNames.length; i++) {
+                        var object = { username:user , category: categoriesNames[i] };
+                        regService.addCategoryToUser(object).
+                            then(function (response) {
+                                if (response.status == 200) {
+                                    window.location.href='#!login';
+                                }
+                                else {
+                                    console.log("something is wrong");
+                                }
+                            })
+                            .catch(function (response) {
+                                console.log("that to do");
+
+                            });
+                    }
+
+                }
+                else {
+                    $scope.answerFromServer = "need to choose 2 or more point of interests";
+
+                }
             }
             else {
                 $scope.answerFromServer = "password don't match!";
@@ -44,8 +77,9 @@ angular.module("myApp")
                         //var JSONCountry={"name":countryName};
                         countries.push(countryName);
                         $scope.names.push(countryName);
-                        $scope.selectedName = $scope.names[0]
                     }
+                    $scope.selectedName = $scope.names[0]
+
                     //$scope.names=countries;
 
                 }
@@ -53,8 +87,8 @@ angular.module("myApp")
             request.open('GET', 'countries.xml', true);
             request.send();
 
-            //load POI
-            var poi = regService.getPointOfInterests().then(function (response) {
+            //load POI categories
+            var poi = regService.getPointOfInterestsCategories().then(function (response) {
                 if (response.status == 200) {
                     var tempPOI = []
                     var pois = response.data;
@@ -66,11 +100,17 @@ angular.module("myApp")
                 else {
                 }
 
+
+
             });
+
         };
-        $scope.inputs = [];
-        $scope.addfield = function () {
-            $scope.inputs.push({})
+        $scope.press = function () {
+            var str = JSON.stringify($scope.selectedName);
+            console.log(str);
+            console.log(str.substring(1, str.length - 1));
+
+
         }
 
 

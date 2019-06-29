@@ -1,6 +1,8 @@
 <!-- the website -->
 <h1>Sign Up for out website!</h1>
 <div ng-controller="createController" >
+        <button ng-Click="check()">press</button>
+
     <form name="createForm" data-ng-init="load()" ng-submit="submit()"  novalidate>
         UserName:
         <input type="text" name="username" ng-model="username" pattern="[a-zA-Z]*" required ng-minlength="3" ng-maxlength="8">
@@ -42,25 +44,37 @@
         <input type="text" name="email" ng-model="email" placeholder="name@mail.com" required ng-pattern="mailpattern">
         <span ng-show="createForm.email.$error.required">This is required! </span>
         <span ng-show="createForm.email.$error.pattern">Invalid field mail form is:name@mail.com</span><br><br>
-        Points of interest:
-        <!-- todo: select minimum 2 points!-->
-        <select multiple name="Points" id="Points" ng-model="selectedPOI" ng-options="item for item in pointOfInterests">
+        Categories:
+        <!-- todo: select minimum 2 categories!-->
+        <select multiple name="Points" id="Points" ng-model="selectedCat" ng-options="item for item in pointOfInterests">
         </select>
         <span ng-show="createForm.Points.$error.required">This is required! </span>
         <span ng-show="createForm.Points.$invalid">Invalid field</span><br><br>
        
-        <button ng-click="addfield()">Add Validation Question</button><br><!--to do- add dynamically-->
+        Validation Question 1:
+        <input type="text" name="question1" ng-model="question1" required>
+        <span ng-show="createForm.question1.$error.required">This is required! </span>
+        <span ng-show="createForm.question1.$invalid">Invalid field</span><br><br>
+        Validation Answer 1:
+        <input type="text" name="answer1" ng-model="answer1" required>
+        <span ng-show="createForm.answer1.$error.required">This is required! </span>
+        <span ng-show="createForm.answer1.$invalid">Invalid field</span><br><br>
 
-        Validation Question:
-        <input type="text" name="question" ng-model="question" required>
-        <span ng-show="createForm.question.$error.required">This is required! </span>
-        <span ng-show="createForm.question.$invalid">Invalid field</span><br><br>
-        Validation Answer:
-        <input type="text" name="answer" ng-model="answer" required>
-        <span ng-show="createForm.answer.$error.required">This is required! </span>
-        <span ng-show="createForm.answer.$invalid">Invalid field</span><br><br>
+        Validation Question 2:
+        <input type="text" name="question2" ng-model="question2" required>
+        <span ng-show="createForm.question2.$error.required">This is required! </span>
+        <span ng-show="createForm.question2.$invalid">Invalid field</span><br><br>
+        Validation Answer 2:
+        <input type="text" name="answer2" ng-model="answer2" required>
+        <span ng-show="createForm.answer2.$error.required">This is required! </span>
+        <span ng-show="createForm.answer2.$invalid">Invalid field</span><br><br>
 
         <input ng-disabled="createForm.$invalid" type="submit" id="submit" value="submit" >
+
+
+
     </form>
+
     {{answerFromServer}}
+
 </div>
