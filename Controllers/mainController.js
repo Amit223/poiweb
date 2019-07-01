@@ -15,10 +15,13 @@ angular.module("myApp")
                         $scope.currName = "Hello " + response.data;
                         $scope.usernamelogged = response.data;
                         $scope.checkConnection = true;
+                        $rootScope.connected=true;
+                        $rootScope.user=response.data;
                     }
                     else {
                         $scope.currName = "Hello Guest"
                         $scope.checkConnection = false;
+                        $rootScope.connected=false;
                     }
                 })
 

@@ -1,4 +1,14 @@
 <div>
-<h1>Explore!</h1>
-
+<div ng-controller="exploreController" ng-hide="$root.connected" data-ng-init="load()">
+        <h1>Explore!</h1>
+        <ul>
+                <li ng-repeat-start="poi in poislist" ng-click="showdetails(poi)">{{poi.Name}}</li>
+                <img ng-src="{{poi.picture}}" ng-click="showdetails(poi)">
+                <li ng-repeat-end></li>
+        </ul>
+        <p ng-show="poislist.length == 0">No points with rank 5 and above</p>
+    
+    
+    </div>
+    
 </div>

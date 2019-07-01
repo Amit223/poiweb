@@ -2,6 +2,8 @@
 
 <head>
     <title>My Website</title>
+ 
+    
 </head>
 
 <body ng-app="myApp">
@@ -18,6 +20,7 @@
     <script src="Controllers/loginController.js"></script>
     <script src="Controllers/mainController.js"></script>
     <script src="Controllers/poiController.js"></script>
+    <script src="Controllers/exploreController.js"></script>
 
 
     <!--load Services-->
@@ -25,17 +28,18 @@
     <script src="Services/loginService.js"></script>
     <script src="Services/mainService.js"></script>
     <script src="Services/poiService.js"></script>
-
+    <script src="Services/exploreService.js"></script>
 
     <!--load cookie-->
     <script src="angular-cookie.js"></script>
 
 
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 
     <!-- the website -->
     <div ng-Controller="MainController">
-        <h1>My Website</h1>
+        <h1>Milan - Main City in Our Modern World!</h1>
         <div  data-ng-init="load()">
             <p>{{currName}}!</p>
         </div>
