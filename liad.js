@@ -10,6 +10,7 @@ var DButilsAzure = require("./DButils");
 secret = "AmitLiadRocks";
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
+var userLogged="Guest"
 app.use(cors());
 const port = process.env.PORT || 3000; //environment variable
 app.listen(port, () => {
@@ -53,7 +54,6 @@ app.get("/getPointOfIntersetDetails/:point", (req, res) => {
     });
 });
 
-
 app.post("/login/:obj", (req, res, next) => {
 
     var obj1 = req.params['obj'];
@@ -61,38 +61,37 @@ app.post("/login/:obj", (req, res, next) => {
     var username = jsonObj.username;
     var password = jsonObj.password;
 
-    payload = { name: username, password: password, admin: false };
-    options = { expiresIn: "1d" };
-    const token = jwt.sign(payload, secret, options);
-    res.send(token);
-    /**
+
     var sql = "SELECT * FROM Users WHERE UserName='"+username+"' AND Password='"+password+"'";
-    var str="";
-    var problem = false;
-    con.query(sql, function (err, result) {
-        if (err) throw err;
-        if(result.recordsets.length!=1)
-            problem=true;
+    DButilsAzure.execQuery(sql).then(function (value2) {
+        if (value2.length == 0) {
+            res.status(200).send("X");
+            next();
+        }
+        else {
+            payload = { name: username, password: password, admin: false };
+            options = { expiresIn: "1d" };
+            const token = jwt.sign(payload, secret, options);
+            res.status(200).send(token);
+            next();
+        }
     });
-    if(problem)
-    res.status(400).send("Please try again.");
-    else
-    res.status(200).send("Login successful, Welcome "+username+"!");*/
-    next();
 });
 
 app.post("/private", (req, res) => {
     const token = req.header("x-auth-token");
     // no token
-    if (!token) res.status(401).send("Access denied. No token provided.");
+    if (!token){res.status(200).send("X");
+    return;}
     // verify token
     try {
         const decoded = jwt.verify(token, secret);
         req.decoded = decoded;
+        userLogged=req.decoded.name;
         if (req.decoded.admin)
-            res.status(200).send({ result: "Hello admin." });
+            res.status(200).send("admin");
         else
-            res.status(200).send({ result: "Hello" + req.decoded.username });
+            res.status(200).send(req.decoded.name);
     } catch (exception) {
         res.status(400).send("Invalid token.");
     }
@@ -135,11 +134,13 @@ app.post("/restorePassword/:obj", (req, res, next) => {
     var obj = req.params['obj'];
     var jsonObj = JSON.parse(obj);
     var username = jsonObj.username;
-    var answer = jsonObj.answer;
+    var question = jsonObj.question;
+    var answer= jsonObj.answer;
 
 
     var sql = "SELECT Password FROM Users WHERE UserName='" + username +
-        "' AND AnswerAutentication='" + answer + "'";
+        "' AND ( (QuestionOne='"+question+"'And AnswerOne='" +answer+"')OR ("+
+        "QuestionTwo='"+question+"'And AnswerTwo='" +answer+"'))";
     DButilsAzure.execQuery(sql).then(function (value2) {
         if (value2.length != 1) {
             res.status(400).send("user with that certain answer doesn't exist!")
@@ -151,6 +152,27 @@ app.post("/restorePassword/:obj", (req, res, next) => {
         }
     });
 });
+
+app.get("/getQA/:obj", (req, res, next) => {
+    var obj = req.params['obj'];
+    var jsonObj = JSON.parse(obj);
+    var username = jsonObj.username;
+
+
+    var sql = "SELECT QuestionOne, QuestionTwo FROM Users WHERE UserName='" + username + "'";
+    DButilsAzure.execQuery(sql).then(function (value) {
+        if (value.length == 0) {
+            res.status(400).send("user with that certain username doesn't exist!")
+            next();
+        }
+        else {
+            var jsonobjToSend={q1: value[0].QuestionOne, q2:value[0].QuestionTwo};
+            res.status(200).send(jsonobjToSend)
+            next();
+        }
+    });
+});
+
 
 
 app.post("/saveToFavorites/:obj", (req, res, next) => {
@@ -287,6 +309,21 @@ app.get("/getRecentSavedPoints/:obj", (req, res, next) => {
 
 });
 
+app.get("/getPoints", (req, res, next) => {
+    var sql = "SELECT * FROM Points";
+    DButilsAzure.execQuery(sql).then(function (value) {
+        if (value.length == 0) {
+            res.status(400).send("points don't exist")
+            next();
+        }
+        else{
+            res.status(200).send(value);
+        }
+
+    });
+
+});
+
 
 app.get("/getPointsInfo/:obj", (req, res, next) => {
     var points = new Array();
@@ -411,26 +448,27 @@ app.get("/getPointOfInterestsByCategory/:obj", (req, res, next) => {
 
 });
 
-app.get("/explore/", (req, res, next) => {
-    var sql = "SELECT Name FROM Points WHERE Rank='5'";
+app.get("/explore", (req, res, next) => {
+    var sql = "SELECT * FROM Points WHERE Rank='5'";
     DButilsAzure.execQuery(sql).then(function (value) {
         if (value.length == 0) {
             res.status(400).send("No popular points.");
         }
         else {
+            var points=[];
             var rnd = parseInt(Math.random() * (value.length - 1));
-            var s = value[rnd].Name;
+            points.push(value[rnd]);
             value[rnd] = value[value.length - 1];
             if ((value.length - 2) >= 0) {
                 var rnd2 = parseInt(Math.random() * (value.length - 2));
-                s += "\n" + value[rnd2].Name;
+                points.push(value[rnd2])
                 value[rnd2] = value[value.length - 2];
                 if (value.length - 3 >= 0) {
                     var rnd3 = parseInt(Math.random() * (value.length - 3));
-                    s += "\n" + value[rnd3].Name;
+                    points.push(value[rnd3]);
                 }
             }
-            res.status(200).send("Popular Places:\n" + s);
+            res.status(200).send(points);
 
         }
     });

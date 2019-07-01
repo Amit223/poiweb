@@ -1,4 +1,5 @@
-let app1 = angular.module('myApp', ["ngRoute"]);
+
+let app1 = angular.module('myApp', ['ngRoute','ngCookies']);
 app1.config(['$qProvider', function ($qProvider) {
     $qProvider.errorOnUnhandledRejections(false);
 }]);
@@ -23,6 +24,11 @@ app1.config(function($routeProvider)   {
         .when('/poi', {
             templateUrl : 'views/poi.html',
         })
+
+        .when('/favorite',{
+            templateUrl : 'views/favorite.html',
+        })
         .otherwise({ redirectTo: '/' });
 
 });
+

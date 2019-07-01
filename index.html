@@ -19,34 +19,45 @@
     <!--load Services-->
     <script src="views/Services.js"></script>
 
+    <!--load cookie-->
+    <script src="angular-cookie.js"></script>
+
+
 
 
     <!-- the website -->
-    <h1>My Website</h1>
     <div ng-Controller="MainController">
-        <p>Hello {{currName}} !</p>
+        <h1>My Website</h1>
+        <div  data-ng-init="load()">
+            <p>{{currName}}!</p>
+        </div>
+        <div ng-hide="checkConnection">
+            <h3>Please login to the site in order to use it:</h3>
+            <a href="#!login">Login</a>
+            <h3>if you are not registered yet, please register in:</h3>
+            <a href="#!register">Register</a>
+        </div>
+    
+        <!-- menu -->
+        <ul>
+            <li>
+                <a href="#!">Home</a>
+            </li>
+            <li>
+                <a href="#!about">About</a>
+            </li>
+            <li >
+                <a href="#!poi">Point Of Interest</a>
+            </li>
+            <li ng-show="checkConnection">
+                <a href="#!favorite">My Favorite Points</a>
+    
+            </li>
+        </ul>
+    
+        </div>
     </div>
-    <div ng-hide="checkConnection">
-        <h3>Please login to the site in order to use it:</h3>
-        <a href="#!login">Login</a>
-        <h3>if you are not registered yet, please register in:</h3>
-        <a href="#!register">Register</a>
-    </div>
-
-    <!-- menu -->
-    <ul>
-        <li>
-            <a href="#!">Home</a>
-        </li>
-        <li>
-            <a href="#!about">About</a>
-        </li>
-        <li >
-            <a href="#!poi">Point Of Interest</a>
-        </li>
-    </ul>
-
-    </div>
+    
 
 
     <!-- This section changes as the hashbang changes -->

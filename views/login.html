@@ -1,4 +1,49 @@
-<div>
-    this is the login section!
+<div ng-controller="loginController">
+    <div ng-show="wantslogin">
+        <h1>Log in!</h1>
+        <form name="loginForm" ng-submit="login()" novalidate>
+            UserName:
+            <input type="text" name="username" ng-model="username" required>
+            <span ng-show="loginForm.username.$error.required">This is required! </span>
+            <br><br>
+            Password:
+            <input type="password" name="password" ng-model="password" required>
+            <span ng-show="loginForm.password.$error.required">This is required! </span>
+            <br><br>
+            <input type="submit" ng-disabled="loginForm.$invalid" id="login" value="Login">
+            <br><br>
+        </form>
+        <button ng-click="showForgot()"> forgot my password
+        </button>
+    </div>
+
+    <div ng-show="getPassword">
+        <h3>Enter you user name in order to get autontication questions</h3>
+        Username:
+        <form name="getUser" ng-submit="showQA()">
+                <input type="text" name="usernameRetrieved" ng-model="usernameRetrieved" required>
+                <span ng-show="getUser.answer.$error.required">This is required! </span> <br><br>
+            <input type="submit" ng-disabled="getUser.$invalid" id="getUser" value="press me">
+
+        </form>
+    </div>
+
+    <div ng-show="gotusername">
+        <form name="forgotForm" ng-submit="forgot()" no validate>
+            Question:
+            <select id="question" ng-model="selectedName" ng-options="item for item in questions">
+            </select><br><br>
+            <span ng-show="forgotForm.question.$error.required">This is required! </span>
+            Answer:
+            <input type="text" name="answer" ng-model="answer" required>
+            <span ng-show="forgotForm.answer.$error.required">This is required! </span><br><br>
+
+            <input type="submit" ng-disabled="forgotForm.$invalid" id="forgot" value="get my password">
+
+        </form>
+        <p>{{passwordUser}}</p><br>
+        <button ng-click="showLogin()">return to login page</button>
+    </div>
+
 
 </div>

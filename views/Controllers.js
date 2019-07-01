@@ -1,3 +1,4 @@
+
 // create controller
 angular.module("myApp")
     .controller("createController", ['regService', '$scope', function (regService, $scope) {
@@ -25,20 +26,20 @@ angular.module("myApp")
                             }
                             else {
 
-                                $scope.answerFromServer = response.status;
+                                $scope.answerFromServer = "user name exist, please try again.";
                                 return;
                             }
                             //window.alert($scope.answerFromServer);
                         });
                     //add all categories
                     var categoriesNames = $scope.selectedCat;
-                    var user=$scope.username;
+                    var user = $scope.username;
                     for (var i = 0; i < categoriesNames.length; i++) {
-                        var object = { username:user , category: categoriesNames[i] };
+                        var object = { username: user, category: categoriesNames[i] };
                         regService.addCategoryToUser(object).
                             then(function (response) {
                                 if (response.status == 200) {
-                                    window.location.href='#!login';
+                                    window.location.href = '#!login';
                                 }
                                 else {
                                     console.log("something is wrong");
@@ -115,16 +116,139 @@ angular.module("myApp")
 
 
     }]);
+
 //main controller
 angular.module("myApp")
-    .controller('MainController', function ($scope, $rootScope) {
-        $rootScope.usernamelogged = "Guest";
-        $scope.checkConnection = function () {
-            if ($rootscope.username == "non")
-                return false;
-            return true;
+    .controller('MainController', ['mainService', '$scope', '$rootScope', '$cookies',
+        function (mainService, $scope, $rootScope, $cookies) {
+
+            $scope.usernamelogged = "b";
+            $scope.checkConnection = true;
+
+
+            $scope.load = function () {
+                var token_ = $cookies.get('token')
+                var obj = { token: token_ };
+                mainService.getToken(token_).then(function (response) {
+                    if (response.status = 200 && response.data != "X") {
+                        $scope.currName = "Hello " + response.data;
+                        $scope.usernamelogged = response.data;
+                        $scope.checkConnection = true;
+                    }
+                    else {
+                        $scope.currName = "Hello Guest"
+                        $scope.checkConnection = false;
+                    }
+                })
+
+
+            }
+
+        }]);
+
+//login controller
+angular.module("myApp")
+    .controller("loginController", ['loginService', '$scope', '$rootScope', '$cookies', function (loginService, $scope, $rootScope, $cookies) {
+        let self = this;
+        $scope.getPassword = false;
+        $scope.gotusername = false;
+        $scope.wantslogin = true;
+        $scope.login = function () {
+            var obj = { username: $scope.username, password: $scope.password };
+            loginService.loginToServer(obj).
+                then(function (response) {
+                    if (response.data != "X") {
+                        $cookies.put('token', response.data);
+                        console.log("token is:" + $cookies.get('token'))
+                        window.location.href = '';
+
+                    }
+                    else {
+                        window.alert("user or password are incorrect. Please try again.")
+                    }
+                })
         }
-        $scope.currName = $rootScope.usernamelogged;
 
-    });
+        $scope.showQA = function () {
+            var obj = { username: $scope.usernameRetrieved };
+            loginService.getQA(obj).
+                then(function (response) {
+                    if (response.status == 200) {
+                        var temp = []
+                        var questions_data = response.data;
+                        temp.push(questions_data.q1);
+                        temp.push(questions_data.q2);
 
+                        $scope.questions = temp;
+                        $scope.gotusername = true;
+                        $scope.getPassword = false;
+                    }
+                    else {
+                        window.alert("username doesn't exist. Please try again")
+                    }
+                })
+                .catch((err) => {
+                    window.alert("username doesn't exist. Please try again");
+
+                });
+        }
+
+        $scope.passwordUser = "";
+        $scope.forgot = function () {
+            var questionlong = JSON.stringify($scope.selectedName);
+            var _question = questionlong.substring(1, questionlong.length - 1)
+
+            var obj = { username: $scope.usernameRetrieved, question: _question, answer: $scope.answer };
+            loginService.getPassword(obj).
+                then(function (response) {
+                    if (response.status == 200) {
+                        $scope.passwordUser = "Your password is:" + response.data;
+                    }
+                })
+                .catch((err) => {
+                    window.alert("answer is incorrect. Can't restore password.");
+
+                });
+        }
+
+        $scope.showForgot = function () {
+            $scope.getPassword = true;
+            $scope.wantslogin = false;
+        }
+        $scope.showLogin = function () {
+            $scope.gotusername = false;
+            $scope.wantslogin = true;
+        }
+
+
+    }]);
+
+angular.module("myApp")
+    .controller("poiController", ['poiService', '$scope', function (poiService, $scope) {
+    $scope.load=function(){
+        poiService.getPoints().
+        then(function(response){
+            var tempPOI = []
+            var pois = response.data;
+            for (var i = 0; i < pois.length; i++) {
+                tempPOI.push(pois[i]);
+            }
+            $scope.poislist = tempPOI;
+        })
+        .catch((err) => {
+            console.log("something went wrong");
+
+        });
+    }
+    $scope.showdetails=function(poi){
+        var index=$scope.poislist.indexOf(poi);
+        var rank=$scope.poislist[index].Rank/5;
+        var msg="View number: "+ $scope.poislist[index].WatchedBy+"\n"
+        + "Description:\n "+ $scope.poislist[index].Description+"\n"
+        +"Rating: " +rank*100 +"%\n"
+        //todo add ratings
+        window.alert(msg)
+    }
+
+
+    }]);

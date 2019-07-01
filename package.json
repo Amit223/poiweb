@@ -4,6 +4,7 @@
   "description": "",
   "main": "liad.js",
   "dependencies": {
+    "@auth0/angular-jwt": "^2.1.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dbutil": "^0.0.1",

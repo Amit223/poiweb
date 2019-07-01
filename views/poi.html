@@ -1,1 +1,13 @@
-<h2>POI</h2>
+<div ng-controller="poiController" data-ng-init="load()">
+    <h2>Points of Interest:</h2>
+    <p>Search Point of Interest</p>
+    <p><input type="text" ng-model="search.Name"></p>
+    <ul>
+            <li ng-repeat-start="poi in poislist| filter:search" ng-click="showdetails(poi)">{{poi.Name}}</li>
+            <img ng-src="{{poi.picture}}" ng-click="showdetails(poi)">
+            <li ng-repeat-end></li>
+    </ul>
+    <p ng-show="(poislist | filter:search).length == 0">No results :(</p>
+
+
+</div>
