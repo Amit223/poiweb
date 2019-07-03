@@ -1,30 +1,50 @@
-<div class="container" ng-controller="poiController" data-ng-init="load()">
-    <h2>Points of Interest:</h2>
-    <div ng-show="$root.connected">
-        <h5> Add to favorite by clicking the "+" button</h5>
-        <h5> Delete from favorite by clicking the "-" button</h5>
+<div class="container"  ng-controller="poiController" data-ng-init="load()">
+    <div ng-hide="showPoi">
+            <h2>Points of Interest:</h2>
+            <div ng-show="$root.connected">
+                <h5> Add to favorite by clicking the "+" button</h5>
+                <h5> Delete from favorite by clicking the "-" button</h5>
+            </div>
+        
+        
+            <p>Search Point of Interest</p>
+            <p><input type="text" ng-model="search.Name"></p>
+            Filter By Categories:(if nothing is chosen, no filter)<br><br>
+            <select multiple name="Points" id="Points" ng-model="selectedItems" ng-options="item for item in pointOfInterests">
+            </select>
+            <br><br>
+            <button ng-click="sortButtonClick()">Click to sort by rank</button>
+            <ul>
+                <li ng-repeat-start="poi in poislist| filter:filterArray|filter:search|orderBy:myValueFunction"
+                    ng-click="showdetails(poi)">{{poi.Name}}</li>
+                <li><button class="btn" ng-show="$root.connected"
+                        ng-click="addOrDelete(poi)">{{isClicked[poislist.indexOf(poi)]}}</button></li>
+                <img ng-src="{{poi.picture}}" ng-click="showdetails(poi)">
+                <li ng-repeat-end></li>
+            </ul>
+            <p ng-show="(poislist | filter:search).length == 0">No results :(</p>
     </div>
+    
 
+    <div ng-show="showPoi" >
+            <br>
+            <h1>{{currpoiname}}</h1> <br>
+            <p>Number of views:{{currNumViews}}</p>
+            <P>Details: </P>
+            <p>{{currpoidetails}} </p>
+            <p>Rating: {{currRating}}</p>
+            <p>{{currcrit1}}</p>
+            <p>{{currcrit2}}</p>
 
-    <p>Search Point of Interest</p>
-    <p><input type="text" ng-model="search.Name"></p>
-    Filter By Categories:(if nothing is chosen, no filter)<br><br>
-    <select multiple name="Points" id="Points" ng-model="selectedItems" ng-options="item for item in pointOfInterests">
-    </select>
-    <br><br>
-    <button ng-click="sortButtonClick()">Click to sort by rank</button>
-    <ul>
-        <li ng-repeat-start="poi in poislist| filter:filterArray|filter:search|orderBy:myValueFunction"
-            ng-click="showdetails(poi)">{{poi.Name}}</li>
-        <li><button class="btn" ng-show="$root.connected"
-                ng-click="addOrDelete(poi)">{{isClicked[poislist.indexOf(poi)]}}</button></li>
-        <img ng-src="{{poi.picture}}" ng-click="showdetails(poi)">
-        <li ng-repeat-end></li>
-    </ul>
-    <p ng-show="(poislist | filter:search).length == 0">No results :(</p>
+            <button ng-click="addOrDeleteDiv()" >{{plusorminus}}</button><br>
 
-
+            <button ng-click="retPrev()">return to main page</button>
+            <br>
+    </div>
 </div>
+
+
+
 <style>
     .container {
         position: relative;
@@ -58,10 +78,9 @@
     }
 
 
-
-
     .container .btn:hover {
         background-color: black;
         color: rgb(255, 10, 104);
+
     }
 </style>
