@@ -326,11 +326,7 @@ app.get("/getFavoritePoints/:obj", (req, res, next) => {
             next();
         }
         else {
-                var points = new Array();
-                for (var i = 0; i < value.length; i++) {//push all point to array
-                    points.push(value[i]);
-                }
-                res.status(200).send(points);
+                res.status(200).send(value);
                 next();
 
 
@@ -388,6 +384,7 @@ app.post("/criticizePoint/:obj", (req, res, next) => {
     var jsonObj = JSON.parse(obj);
     var pointname = jsonObj.pointname;
     var ciritisizm = jsonObj.ciritisizm;
+    var date = jsonObj.date;
 
 
     var sql = "SELECT * FROM Points WHERE Name='" + pointname + "'";
@@ -399,13 +396,28 @@ app.post("/criticizePoint/:obj", (req, res, next) => {
 
     });
 
-    var sql2 = "INSERT INTO Point_Criticism (Name, Criticism) " + "VALUES ('" + pointname + "', '" + ciritisizm + "')";
+    var sql2 = "INSERT INTO Point_Criticism (Name, Criticism, Date) " + "VALUES ('" + pointname + "', '" + ciritisizm + "', '"+date+"')";
     DButilsAzure.execQuery(sql2).then(function (value2) {
         res.status(200).send("Success!");
 
     });
 });
 
+app.get("/getCritizes/:obj",(req, res, next) => {
+    var obj = req.params['obj'];
+    var jsonObj = JSON.parse(obj);
+    var pointname = jsonObj.pointname;
+
+
+
+    var sql = "SELECT * FROM Point_Criticism WHERE Name='" + pointname + "'";
+    DButilsAzure.execQuery(sql).then(function (value) {
+            res.status(200).send(value);
+            next();
+
+    });
+
+});
 
 app.post("/rankPoint/:obj", (req, res, next) => {
     var obj = req.params['obj'];

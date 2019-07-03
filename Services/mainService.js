@@ -45,4 +45,20 @@ angular.module('myApp').service('mainService', function ($http) {
         };
         return $http(req);
     };
+
+    self.getNumFavorite=function(obj){
+            var req = {
+                method: 'GET',
+                url: 'http://localhost:3000/getFavoritePoints/'+ JSON.stringify(obj),
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+                    "Access-Control-Allow-Headers": "*",
+                    "Access-Control-Max-Age": "*",
+                    "Content-Type": "application/json",
+                },
+                data: JSON.stringify(obj)
+            };
+            return $http(req);
+    }
 });
