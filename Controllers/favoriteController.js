@@ -11,7 +11,14 @@ angular.module("myApp")
             mainService.getToken(token_).then(function (response) {
                 if (response.status = 200 && response.data != "X") {
                     $scope.username = response.data;
-                    var obj = { username: response.data };
+                    showPoints();
+                    
+                }
+            });
+        }
+
+        function showPoints(){
+            var obj = { username: $scope.username };
                     favoriteService.getFavoritePoints(obj).
                         then(function (response) {
                             $scope.numSaved = response.data.length;
@@ -40,10 +47,7 @@ angular.module("myApp")
                         .catch((err) => {
 
                         });
-                }
-            });
         }
-
         async function please(obj,name,des,rank,pic,cat) {
             try {
                 const response = await favoriteService.getIndex(obj);
@@ -154,10 +158,10 @@ angular.module("myApp")
         };
 
 
-        /**
-         *   $scope.updateUsersPointsIndexes = function () {
-                    var obj = { username: $rootScope.user }
-                    poiService.getFavoritePoints(obj).then(function (response) {
+        
+            $scope.updateUsersPointsIndexes = function () {
+                    var obj = { username: $scope.username }
+                    favoriteService.getFavoritePointsMini(obj).then(function (response) {
                         if (response.data.length > 0) {//have points
                             var favorites = response.data.sort(function (a, b) {
                                 return parseFloat(a.Index) - parseFloat(b.Index);
@@ -166,8 +170,8 @@ angular.module("myApp")
                             //for each point in asendic order, give new index by order
                             var counter = 1;
                             for (var i = 0; i < favorites.length; i++) {
-                                var obj = { username: $rootScope.user, pointname: favorites[i].PointName, index: counter };
-                                poiService.updateIndex(obj).then(function (response) {
+                                var obj = { username: $scope.username, pointname: favorites[i].PointName, index: counter };
+                                favoriteService.updateIndex(obj).then(function (response) {
                                 });
                                 counter = counter + 1;
                             }
@@ -176,24 +180,26 @@ angular.module("myApp")
         
                 }
         
-         */
+        
 
 
 
-        $scope.addOrDelete = function () {//only delete
-            var obj = { username: $rootScope.user, pointname: $scope.chosenPoi.Name, index: $scope.numSaved };
+        $scope.Delete = function (poi) {//only delete
+            //var obj = { username: $rootScope.user, pointname: poi.Name, index: $scope.numSaved };
             //delete
             $scope.numSaved = $scope.numSaved - 1;
-            var obj = { username: $rootScope.user, pointname: $scope.chosenPoi.Name };
+            var obj = { username: $rootScope.user, pointname: poi.Name };
             console.log(obj);
             favoriteService.deleteFromFavorite(obj).then(function (response) {
                 if (response.status == 200) {
                     $rootScope.numFave = $rootScope.numFave - 1;
-
                 }
             });
             //update indexes
             $scope.updateUsersPointsIndexes();
+            //show again
+            //showPoints();
+            poislist.splice(poislist.indexOf(poi),1);
 
         };
 

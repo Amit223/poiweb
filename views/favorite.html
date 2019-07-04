@@ -10,7 +10,7 @@
                     <li ng-repeat-start="poi in poislist|orderBy:myValueFunction"
                         ng-click="showdetails(poi)">{{poi.Name}}</li>
                     <li><button class="btn"
-                            ng-click="addOrDelete(poi)">-</button></li>
+                            ng-click="Delete(poi)">-</button></li>
                     <img ng-src="{{poi.picture}}" ng-click="showdetails(poi)">
                     <li ng-repeat-end></li>
                 </ul>
