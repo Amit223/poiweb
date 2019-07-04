@@ -51,7 +51,8 @@ angular.module("myApp")
             });
 
         }
-        $scope.saved = "+"
+
+        
         $scope.filterArray = function (poi) {
             if ($scope.selectedItems && $scope.selectedItems.length > 0)
                 return ($scope.selectedItems.indexOf(poi.Category) !== -1);
@@ -60,24 +61,27 @@ angular.module("myApp")
         };
 
         $scope.sortButtonClick = function () {
-            $scope.isClicked = true;
+            $scope.isClickedSort = true;
 
         }
 
         $scope.myValueFunction = function (poi) {
-            if ($scope.isClicked)
+            if ($scope.isClickedSort)
                 return -poi.Rank;
             else
                 return 0;
         };
 
+
         $scope.showdetails = function (poi) {
             var obj = { pointname: poi.Name }
-
+            poiService.getUpdatedDetails(obj).then(function(response){
+                $scope.currNumViews=response.data[0].WatchedBy;
+            })
             poiService.getCritisizm(obj).then(function (response) {
                 var index = $scope.poislist.indexOf(poi);
                 var rank = $scope.poislist[index].Rank / 5;
-                $scope.currNumViews = $scope.poislist[index].WatchedBy
+                //$scope.currNumViews = $scope.poislist[index].WatchedBy
                 var msg = $scope.poislist[index].Description;
                 $scope.currRating = rank * 100 + "%";
                 var critism = response.data;
@@ -105,6 +109,7 @@ angular.module("myApp")
                 $scope.currpoiname = poi.Name;
                 $scope.showPoi = true;
                 $scope.chosenPoi=poi;
+
                 return;
 
                 //window.alert(msg)
@@ -113,7 +118,12 @@ angular.module("myApp")
 
         }
         $scope.retPrev = function () {
-            $scope.showPoi = false;
+            var obj2={pointname:  $scope.chosenPoi.Name }
+            poiService.addviews(obj2).then(function(response){
+                //added views
+                $scope.showPoi = false;
+            })
+
         }
 
 
