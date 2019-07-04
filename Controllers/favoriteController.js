@@ -199,8 +199,30 @@ angular.module("myApp")
             $scope.updateUsersPointsIndexes();
             //show again
             //showPoints();
-            poislist.splice(poislist.indexOf(poi),1);
+            $scope.poislist.splice($scope.poislist.indexOf(poi),1);
 
         };
+
+
+        $scope.DeleteDiv = function (poi) {//only delete
+            //var obj = { username: $rootScope.user, pointname: poi.Name, index: $scope.numSaved };
+            //delete
+            $scope.numSaved = $scope.numSaved - 1;
+            var obj = { username: $rootScope.user, pointname: $scope.chosenPoi.Name };
+            console.log(obj);
+            favoriteService.deleteFromFavorite(obj).then(function (response) {
+                if (response.status == 200) {
+                    $rootScope.numFave = $rootScope.numFave - 1;
+                }
+            });
+            //update indexes
+            $scope.updateUsersPointsIndexes();
+            //show again
+            //showPoints();
+            $scope.poislist.splice($scope.poislist.indexOf($scope.chosenPoi),1);
+            $scope.showPoi = false;
+
+        };
+
 
     }]);

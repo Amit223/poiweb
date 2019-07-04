@@ -1,3 +1,147 @@
-<div>
-    <h2>Favorite</h2>
+<div class="container"  ng-controller="favoriteController" data-ng-init="load()">
+            <h2>Favorite Points of Interest:</h2>
+            <div ng-hide="showPoi">
+                <button ng-click="sortButtonClick()">Click to sort by rank</button><br><br>
+                <button ng-click="sortButtonClickCategory()">Click to sort by category</button><br><br>
+                <button ng-click="sortButtonClickRegular()">Click to order by your chosen order</button>
+
+    
+                <ul>
+                    <li ng-repeat-start="poi in poislist|orderBy:myValueFunction"
+                        ng-click="showdetails(poi)">{{poi.Name}}</li>
+                    <li><button class="btn"
+                            ng-click="Delete(poi)">-</button></li>
+                    <img ng-src="{{poi.picture}}" ng-click="showdetails(poi)">
+                    <li><label class="container2">Two
+                        <input type="checkbox">
+                        <span class="checkmark"></span>
+                      </label></li>
+                    <li ng-repeat-end></li>
+                </ul>
+            </div>
+            
+            <div ng-show="showPoi" >
+                <br>
+                <h1>{{currpoiname}}</h1> <br>
+                <p>Number of views:{{currNumViews}}</p>
+                <P>Details: </P>
+                <p>{{currpoidetails}} </p>
+                <p>Rating: {{currRating}}</p>
+                <p>{{currcrit1}}</p>
+                <p>{{currcrit2}}</p>
+    
+                <button ng-click="addOrDeleteDiv()" >Delete from favorites</button><br>
+    
+                <button ng-click="retPrev()">return to my favorites</button>
+                <br>
+        </div>
+    
 </div>
+
+<style>
+    .container {
+        position: relative;
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .container img {
+        width: 100%;
+        height: auto;
+    }
+
+    .container .btn {
+        position: relative;
+        top: 50px;
+        left: 93%;
+        transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        background-color: rgb(255, 10, 104);
+        color: rgb(8, 8, 8);
+        font-size: 20px;
+        border: none;
+        cursor: pointer;
+        text-align: center;
+        height: 30px;
+        width: 30px;
+        border-radius: 50%;
+        margin: 0 auto;
+        padding: 0;
+        vertical-align: middle;
+    }
+
+
+    .container .btn:hover {
+        background-color: black;
+        color: rgb(255, 10, 104);
+
+    }
+
+    .container2 {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.container2 input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.container2:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container2 input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.container2 input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.container2 .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+</style>
+
