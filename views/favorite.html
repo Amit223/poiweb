@@ -1,3 +1,75 @@
-<div>
-    <h1>Favorite</h1>
+<div class="container"  ng-controller="favoriteController" data-ng-init="load()">
+            <h2>Favorite Points of Interest:</h2>
+            <div ng-hide="showPoi">
+                <button ng-click="sortButtonClick()">Click to sort by rank</button><br><br>
+                <button ng-click="sortButtonClickCategory()">Click to sort by category</button><br><br>
+                <button ng-click="sortButtonClickRegular()">Click to order by your chosen order</button>
+
+    
+                <ul>
+                    <li ng-repeat-start="poi in poislist|orderBy:myValueFunction"
+                        ng-click="showdetails(poi)">{{poi.Name}}</li>
+                    <li><button class="btn"
+                            ng-click="addOrDelete(poi)">-</button></li>
+                    <img ng-src="{{poi.picture}}" ng-click="showdetails(poi)">
+                    <li ng-repeat-end></li>
+                </ul>
+            </div>
+            
+            <div ng-show="showPoi" >
+                <br>
+                <h1>{{currpoiname}}</h1> <br>
+                <p>Number of views:{{currNumViews}}</p>
+                <P>Details: </P>
+                <p>{{currpoidetails}} </p>
+                <p>Rating: {{currRating}}</p>
+                <p>{{currcrit1}}</p>
+                <p>{{currcrit2}}</p>
+    
+                <button ng-click="addOrDeleteDiv()" >Delete from favorites</button><br>
+    
+                <button ng-click="retPrev()">return to my favorites</button>
+                <br>
+        </div>
+    
 </div>
+
+<style>
+    .container {
+        position: relative;
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .container img {
+        width: 100%;
+        height: auto;
+    }
+
+    .container .btn {
+        position: relative;
+        top: 50px;
+        left: 93%;
+        transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        background-color: rgb(255, 10, 104);
+        color: rgb(8, 8, 8);
+        font-size: 20px;
+        border: none;
+        cursor: pointer;
+        text-align: center;
+        height: 30px;
+        width: 30px;
+        border-radius: 50%;
+        margin: 0 auto;
+        padding: 0;
+        vertical-align: middle;
+    }
+
+
+    .container .btn:hover {
+        background-color: black;
+        color: rgb(255, 10, 104);
+
+    }
+</style>
