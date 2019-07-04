@@ -1,12 +1,133 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+<head height="50%">
 
-<head>
-    <title>My Website</title>
- 
-    
 </head>
-
 <body ng-app="myApp">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<title>Milan : Home</title>
+<!-- Favicon -->
+<link rel="shortcut icon" type="image/icon" href="markups-kevin/assets/images/favicon.ico"/>
+<!-- Font Awesome -->
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+<!-- Bootstrap -->
+<link href="markups-kevin/assets/css/bootstrap.min.css" rel="stylesheet">
+<!-- Slick slider -->
+<link href="markups-kevin/assets/css/slick.css" rel="stylesheet">
+<!-- Gallery Lightbox -->
+<link href="markups-kevin/assets/css/magnific-popup.css" rel="stylesheet">
+<!-- Theme color -->
+<link id="switcher" href="markups-kevin/assets/css/theme-color/default-theme.css" rel="stylesheet">
+
+<!-- Main Style -->
+<link href="markups-kevin/style.css" rel="stylesheet">
+
+<!-- Fonts -->
+
+<!-- Open Sans for body font -->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,400i,600,700,800" rel="stylesheet">
+<!-- Poppins for Title -->
+<link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<div ng-Controller="MainController" data-ng-init="load()">
+    <!-- Start Header -->
+    <header height="50%" id="mu-header" class="" role="banner">
+        <div class="container">
+            <nav class="navbar navbar-default mu-navbar">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                                data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+
+                        <!-- Text Logo -->
+                        <a class="navbar-brand" href="#">Milan</a>
+
+                        <!-- Image Logo -->
+                        <!-- <a class="navbar-brand" href="#"><img src="assets/images/logo.png"></a> -->
+
+
+                    </div>
+
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav mu-menu navbar-right">
+                            <li><a href="#!">HOME</a></li>
+                            <li><a href="#!about">ABOUT US</a></li>
+                            <li><a href="#!poi">POINT OF INTEREST</a></li>
+                            <li ng-show="checkConnection"><a href="#!favorite">MY FAVORITE POINTS({{$root.numFave}})</a>
+                            </li>
+                        </ul>
+                    </div><!-- /.navbar-collapse -->
+                </div><!-- /.container-fluid -->
+            </nav>
+        </div>
+    </header>
+    <!-- End Header -->
+
+    <!-- Start Featured Slider -->
+    <section height="50%" id="mu-featured-slider">
+        <div height="50%" class="container">
+            <div height="50%" class="row">
+                <div height="50%" class="col-md-12">
+                    <div height="50%" class="mu-featured-area">
+                        <h1>Milan</h1>
+
+                        <!-- Start text slide -->
+                        <div class="mu-featured-slider-wrapper">
+                            <div class="mu-featured-slider" id="typed-strings">
+                                <p>Main City in <span> Our Modern World!</span></p>
+                                <p>Created by <span> Liad Bercovich and Amit Moshe</span></p>
+                            </div>
+                            <span id="typed"></span>
+                            <div>
+                                <div>
+                                    <p>{{currName}}!</p>
+                                </div>
+
+
+                                <div height="50%" class="mu-featured-content" ng-Controller="MainController">
+                                    <p>Milan is Italy’s city of the future, a fast-paced metropolis where money talks,
+                                        creativity is
+                                        big business and looking good is an art form. In Paris, choosing a dress is a
+                                        monumental
+                                        decision. In Milan, it’s a kick .Milan is a true metropolis: strong and fearless
+                                        but
+                                        welcoming, too. Little by little, I came to realize that I could become someone
+                                        here. In
+                                        Milan, everything is regulated by money. They say “cappuccio” in bars instead of
+                                        “cappuccino” to save a syllable.</p>
+                                </div>
+
+                                <div ng-hide="checkConnection">
+                                    <a href="#!login" class="mu-primary-btn view-my-work-btn">Login</a>
+                                    <a href="#!register" class="mu-primary-btn view-my-work-btn">Register</a>
+                                </div>
+
+                            </div>
+                            <!-- Start text slide -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+
     <!-- load angular -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.js"></script>
     <script src="https://code.angularjs.org/1.7.8/angular-route.js"></script>
@@ -21,7 +142,6 @@
     <script src="Controllers/mainController.js"></script>
     <script src="Controllers/poiController.js"></script>
     <script src="Controllers/exploreController.js"></script>
-    <script src="Controllers/favoriteController.js"></script>
 
 
     <!--load Services-->
@@ -30,8 +150,6 @@
     <script src="Services/mainService.js"></script>
     <script src="Services/poiService.js"></script>
     <script src="Services/exploreService.js"></script>
-    <script src="Services/favoriteService.js"></script>
-
 
     <!--load cookie-->
     <script src="angular-cookie.js"></script>
@@ -40,44 +158,76 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 
-    <!-- the website -->
-    <div ng-Controller="MainController">
-        <h1>Milan - Main City in Our Modern World!</h1>
-        <div  data-ng-init="load()">
-            <p>{{currName}}!</p>
-        </div>
-        <div ng-hide="checkConnection">
-            <h3>Please login to the site in order to use it:</h3>
-            <a href="#!login">Login</a>
-            <h3>if you are not registered yet, please register in:</h3>
-            <a href="#!register">Register</a>
-        </div>
-    
-        <!-- menu -->
-        <ul>
-            <li>
-                <a href="#!">Home</a>
-            </li>
-            <li>
-                <a href="#!about">About</a>
-            </li>
-            <li >
-                <a href="#!poi">Point Of Interest</a>
-            </li>
-            <li ng-show="checkConnection">
-                <a href="#!favorite">My Favorite Points({{$root.numFave}})</a>
-    
-            </li>
-        </ul>
-    
-        </div>
-    </div>
-    
+    <!-- Start Portfolio -->
+    <section id="mu-explore">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="mu-portfolio-area">
 
 
-    <!-- This section changes as the hashbang changes -->
-    <div ng-view></div>
+                        <!-- Start Portfolio Filter -->
+                        <div class="mu-portfolio-filter-area"></div>
+
+                        <!-- Start Portfolio Content -->
+                        <div class="mu-portfolio-content">
+                            <div class="filtr-container">
+
+                                <div ng-view></div>
+
+                            </div>
+                        </div>
+                        <!-- End Portfolio Content -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Portfolio -->
+    </main>
+</div>
+
+    <!-- End main content -->
+
+
+    <!-- Start footer -->
+    <footer id="mu-footer" role="contentinfo">
+        <div class="container">
+            <div class="mu-footer-area">
+                <p class="mu-copy-right"> Amit Moshe & Liad Bercovich
+                </p>
+            </div>
+        </div>
+
+    </footer>
+    <!-- End footer -->
+
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <!-- Bootstrap -->
+    <script src="markups-kevin/assets/js/bootstrap.min.js"></script>
+    <!-- Slick slider -->
+    <script type="text/javascript" src="markups-kevin/assets/js/slick.min.js"></script>
+    <!-- Filterable Gallery js -->
+    <script type="text/javascript" src="markups-kevin/assets/js/jquery.filterizr.min.js"></script>
+    <!-- Gallery Lightbox -->
+    <script type="text/javascript" src="markups-kevin/assets/js/jquery.magnific-popup.min.js"></script>
+    <!-- Ajax contact form  -->
+    <script type="text/javascript" src="markups-kevin/assets/js/app.js"></script>
+    <!-- Featured Slider -->
+    <script type="text/javascript" src="markups-kevin/assets/js/typed.min.js"></script>
+    <!-- On scroll JS  -->
+    <script src="markups-kevin/assets/js/jquery.appear.js"></script>
+    <!-- Progress Bar -->
+    <script type="text/javascript" src="markups-kevin/assets/js/jquery.lineProgressbar.js"></script>
+
+
+    <!-- Custom js -->
+    <script type="text/javascript" src="markups-kevin/assets/js/custom.js"></script>
+
 
 </body>
-
 </html>

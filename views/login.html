@@ -1,6 +1,10 @@
 <div ng-controller="loginController">
+    <div class="mu-portfolio-header">
+        <h2 class="mu-heading-title">Login</h2>
+        <span class="mu-header-dot"></span>
+    </div>
     <div ng-show="wantslogin">
-        <h1>Log in!</h1>
+        <h2>Log in!</h2>
         <form name="loginForm" ng-submit="login()" novalidate>
             UserName:
             <input type="text" name="username" ng-model="username" required>

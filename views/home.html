@@ -1,14 +1,28 @@
 <div>
+
 <div ng-controller="exploreController" ng-hide="$root.connected" data-ng-init="load()">
-        <h1>Explore!</h1>
+        <div class="mu-portfolio-header">
+                <h2 class="mu-heading-title">Explore</h2>
+                <span class="mu-header-dot"></span>
+        </div>
         <ul>
-                <li ng-repeat-start="poi in poislist" ng-click="showdetails(poi)">{{poi.Name}}</li>
-                <img ng-src="{{poi.picture}}" ng-click="showdetails(poi)">
-                <li ng-repeat-end></li>
+
+                <div ng-repeat-start="poi in poislist" class="col-xs-6 col-sm-4 col-md-4 filtr-item" data-category="1">
+                        <div class="mu-item-thumbonail">
+                                <img id="imgg" width="100%" height="100%" ng-src="{{poi.picture}}" ng-click="showdetails(poi)" class="img-responsive"  alt="image">
+
+                        </div>
+                        <div class="mu-filter-item-content">
+                                <h4 class="mu-filter-item-title" ng-click="showdetails(poi)">{{poi.Name}}</h4>
+                                <a class="mu-filter-imglink" ng-click="showdetails(poi)" title="Web Development"><i class="fa fa-search"></i></a>
+                        </div>
+                </div>
+                <div ng-repeat-end></div>
         </ul>
         <p ng-show="poislist.length == 0">No points with rank 5 and above</p>
-    
-    
-    </div>
+
+
+
+</div>
     
 </div>
