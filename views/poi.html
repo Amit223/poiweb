@@ -36,7 +36,7 @@
             <p>{{currcrit1}}</p>
             <p>{{currcrit2}}</p>
 
-            <button ng-click="addOrDeleteDiv()" >{{plusorminus}}</button><br>
+            <button ng-show="$root.connected" ng-click="addOrDeleteDiv()" >{{plusorminus}}</button><br>
 
             <button ng-click="retPrev()">return to main page</button>
             <br>
