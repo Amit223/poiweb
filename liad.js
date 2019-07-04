@@ -36,26 +36,21 @@ var con = sql.connect(config, function (err) {
 });
 
 // middleware
-app.get("/getPointOfIntersetDetails/:obj", (req, res,next) => {
-    var obj = req.params['obj'];
-    var jsonObj = JSON.parse(obj);
-    var pointname = jsonObj.pointname;
-    var sql = "SELECT * FROM Points WHERE Name=" + "'" + pointname + "'";
-     DButilsAzure.execQuery(sql).then(function (value) {
-            res.status(200).send(value);
-            next();
-    });
-});
-
-app.get("/getPointIndex/:obj", (req, res,next) => {
-    var obj = req.params['obj'];
-    var jsonObj = JSON.parse(obj);
-    var username = jsonObj.username;
-    var pointname = jsonObj.pointname;
-    var sql = "SELECT [Index] FROM User_Points WHERE UserName=" + "'" + username + "' AND PointName='"+pointname+"'";
-     DButilsAzure.execQuery(sql).then(function (value) {
-            res.status(200).send(value);
-            next();
+app.get("/getPointOfIntersetDetails/:point", (req, res) => {
+    var name = req.params['point'];
+    console.log("Got GET Request");
+    var sql = "SELECT * FROM Points WHERE Name=" + "'" + name + "'";
+    con.query(sql, function (err, result, fields) {
+        if (err) throw err;
+        if (result.recordset.length == 0)
+            res.status(200).send("Point doesn't exist, Please try again!");
+        else
+            res.status(200).send([result.recordset[0].Name,
+            result.recordset[0].Description,
+            result.recordset[0].WatchedBy,
+            result.recordset[0].Rank,
+            result.recordset[0].Review1,
+            result.recordset[0].Review2]);
     });
 });
 
@@ -404,24 +399,6 @@ app.post("/criticizePoint/:obj", (req, res, next) => {
     var sql2 = "INSERT INTO Point_Criticism (Name, Criticism, Date) " + "VALUES ('" + pointname + "', '" + ciritisizm + "', '"+date+"')";
     DButilsAzure.execQuery(sql2).then(function (value2) {
         res.status(200).send("Success!");
-
-    });
-});
-
-app.post("/addviews/:obj", (req, res, next) => {
-    var obj = req.params['obj'];
-    var jsonObj = JSON.parse(obj);
-    var pointname = jsonObj.pointname;
-
-
-    var sql = "SELECT * FROM Points WHERE Name='" + pointname + "'";
-    DButilsAzure.execQuery(sql).then(function (value2) {
-        var newwatchedby=value2[0].WatchedBy+1;
-        var sql2 = "UPDATE Points SET WatchedBy='" +newwatchedby  +"' WHERE  Name='" + pointname + "'";
-        DButilsAzure.execQuery(sql2).then(function(value3){
-            res.status(200).send("done");
-            next();
-        })
 
     });
 });

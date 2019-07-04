@@ -14,5 +14,4 @@ angular.module('myApp').service('exploreService', function ($http) {
         };
         return $http(req);
     }
-
 });

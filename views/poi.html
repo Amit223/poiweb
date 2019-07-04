@@ -1,70 +1,72 @@
-<div class="container"  ng-controller="poiController" data-ng-init="load()">
+<div ng-controller="poiController" data-ng-init="load()">
+    <div class="mu-portfolio-header">
+        <h2 class="mu-heading-title">Points Of Interests</h2>
+        <span class="mu-header-dot"></span>
+    </div>
     <div ng-hide="showPoi">
-            <h2>Points of Interest:</h2>
-            <div ng-show="$root.connected">
-                <h5> Add to favorite by clicking the "+" button</h5>
-                <h5> Delete from favorite by clicking the "-" button</h5>
+        <div ng-show="$root.connected">
+            <h5> Add to favorite by clicking the "+" button</h5>
+            <h5> Delete from favorite by clicking the "-" button</h5>
+        </div>
+
+
+        <p>Search Point of Interest</p>
+        <p><input type="text" ng-model="search.Name"></p>
+        Filter By Categories:(if nothing is chosen, no filter)<br><br>
+        <select multiple name="Points" id="Points" ng-model="selectedItems"
+                ng-options="item for item in pointOfInterests">
+        </select>
+        <button ng-click="sortButtonClick()">Click to sort by rank</button>
+
+        <table width="50%">
+        <ol class="center">
+
+            <li ng-repeat-start="poi in poislist| filter:filterArray|filter:search|orderBy:myValueFunction"
+                ng-click="showdetails(poi)">{{poi.Name}}
+            </li>
+            <div>
+                <button class="btn" ng-show="$root.connected"
+                        ng-click="addOrDelete(poi)">{{isClicked[poislist.indexOf(poi)]}}</button>
             </div>
-        
-        
-            <p>Search Point of Interest</p>
-            <p><input type="text" ng-model="search.Name"></p>
-            Filter By Categories:(if nothing is chosen, no filter)<br><br>
-            <select multiple name="Points" id="Points" ng-model="selectedItems" ng-options="item for item in pointOfInterests">
-            </select>
-            <br><br>
-            <button ng-click="sortButtonClick()">Click to sort by rank</button>
-            <ul>
-                <li ng-repeat-start="poi in poislist| filter:filterArray|filter:search|orderBy:myValueFunction"
-                    ng-click="showdetails(poi)">{{poi.Name}}</li>
-                <li><button class="btn" ng-show="$root.connected"
-                        ng-click="addOrDelete(poi)">{{isClicked[poislist.indexOf(poi)]}}</button></li>
-                <img ng-src="{{poi.picture}}" ng-click="showdetails(poi)">
-                <li ng-repeat-end></li>
-            </ul>
-            <p ng-show="(poislist | filter:search).length == 0">No results :(</p>
+            <img height="150px" ng-src="{{poi.picture}}" ng-click="showdetails(poi)">
+            <div ng-repeat-end></div>
+        </ol>
+        </table>
+        <p ng-show="(poislist | filter:search).length == 0">No results :(</p>
     </div>
-    
 
-    <div ng-show="showPoi" >
-            <br>
-            <h1>{{currpoiname}}</h1> <br>
-            <p>Number of views:{{currNumViews}}</p>
-            <P>Details: </P>
-            <p>{{currpoidetails}} </p>
-            <p>Rating: {{currRating}}</p>
-            <p>{{currcrit1}}</p>
-            <p>{{currcrit2}}</p>
 
-            <button ng-show="$root.connected" ng-click="addOrDeleteDiv()" >{{plusorminus}}</button><br>
+    <div ng-show="showPoi">
+        <br>
+        <h1>{{currpoiname}}</h1> <br>
+        <p>Number of views:{{currNumViews}}</p>
+        <P>Details: </P>
+        <p>{{currpoidetails}} </p>
+        <p>Rating: {{currRating}}</p>
+        <p>{{currcrit1}}</p>
+        <p>{{currcrit2}}</p>
 
-            <button ng-click="retPrev()">return to main page</button>
-            <br>
+        <button ng-click="addOrDeleteDiv()">{{plusorminus}}</button>
+        <br>
+
+        <button ng-click="retPrev()">return to main page</button>
+        <br>
     </div>
-</div>
-
 
 
 <style>
-    .container {
-        position: relative;
-        width: 100%;
-        max-width: 400px;
+    .center{
+        text-align: center;
+        list-style-position: inside;
     }
-
-    .container img {
-        width: 100%;
-        height: auto;
-    }
-
     .container .btn {
         position: relative;
         top: 50px;
-        left: 93%;
+        left: 7%;
         transform: translate(-50%, -50%);
         -ms-transform: translate(-50%, -50%);
-        background-color: rgb(255, 10, 104);
-        color: rgb(8, 8, 8);
+        background-color: rgb(51, 153, 153);
+        color: rgb(255, 255, 255);
         font-size: 20px;
         border: none;
         cursor: pointer;
@@ -77,10 +79,10 @@
         vertical-align: middle;
     }
 
-
     .container .btn:hover {
-        background-color: black;
-        color: rgb(255, 10, 104);
+        background-color: #ffffff;
+        color: rgb(51, 153, 153);
 
     }
 </style>
+</div>
