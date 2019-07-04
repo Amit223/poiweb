@@ -3,6 +3,7 @@ angular.module("myApp")
         //load
         $scope.numSaved = 0;
         $scope.load = function () {
+           console.log("here");
             $scope.isClickedCat = false;
             $scope.isClickedSorted = false;
 
