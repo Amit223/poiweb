@@ -63,5 +63,11 @@ angular.module("myApp")
             return 0;
         }
 
+        //liad part
+
+        $scope.load2=function(){
+            
+        }
+
 
     }]);

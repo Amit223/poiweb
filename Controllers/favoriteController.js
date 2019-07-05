@@ -204,7 +204,7 @@ angular.module("myApp")
         };
 
 
-        $scope.DeleteDiv = function (poi) {//only delete
+        $scope.DeleteDiv = function () {//only delete
             //var obj = { username: $rootScope.user, pointname: poi.Name, index: $scope.numSaved };
             //delete
             $scope.numSaved = $scope.numSaved - 1;
