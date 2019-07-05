@@ -1,74 +1,86 @@
-<div class="container"  ng-controller="favoriteController" data-ng-init="load()">
-            <h2>Favorite Points of Interest:</h2>
-            <div ng-hide="showPoi">
-                <button class="button" ng-click="sortButtonClick()">sort by rank</button><br><br>
-                <button class="button" ng-click="sortButtonClickCategory()">sort by category</button><br><br>
-                <button class="button" ng-click="sortButtonClickRegular()">chosen order</button><br><br>
+<div ng-controller="favoriteController" data-ng-init="load()">
+    <div  class="mu-portfolio-header">
+        <h2 class="mu-heading-title">Favorite Points of Interest:</h2>
+        <span class="mu-header-dot"></span>
+    </div>
+    <div   ng-hide="showPoi">
+        <button class="button" ng-click="sortButtonClick()">sort by rank</button>
+        <br><br>
+        <button class="button" ng-click="sortButtonClickCategory()">sort by category</button>
+        <br><br>
+        <button class="button" ng-click="sortButtonClickRegular()">chosen order</button>
+        <br><br>
 
-                <p>In order to switch see points by your chocen order, choose 2 point and then press "Switch"</p>
-                <br>
-                <button class="button"ng-disabled="disable()" ng-click="switch()">Switch</button>
-                <ul>
-                    <li ng-repeat-start="poi in poislist|orderBy:myValueFunction"
-                        ng-click="showdetails(poi)">{{poi.Name}}</li>
-                        <label ng-show="toShowCheck(poi)" class="main">Switch
-                            <input ng-model="poi.checked" type="checkbox" ng-change="change(poi)"> 
-                            <span class="geekmark"></span> 
-                        </label> 
-                    <li><button class="btn"
-                            ng-click="Delete(poi)">-</button></li>
-                    <img ng-src="{{poi.picture}}" ng-click="showdetails(poi)">
-                   
-                    <li ng-repeat-end></li>
-                </ul>
-            </div>
-            
-            <div ng-show="showPoi" >
-                <br>
-                <h1>{{currpoiname}}</h1> <br>
-                <p>Number of views:{{currNumViews}}</p>
-                <P>Details: </P>
-                <p>{{currpoidetails}} </p>
-                <p>Rating: {{currRating}}</p>
-                <p>{{currcrit1}}</p>
-                <p>{{currcrit2}}</p>
-    
-                <button ng-click="DeleteDiv()" >Delete from favorites</button><br>
-    
-                <button ng-click="retPrev()">return to my favorites</button>
-                <br>
-        </div>
-    
+        <p>In order to switch see points by your chocen order, choose 2 point and then press "Switch"</p>
+        <br>
+        <button class="button" ng-disabled="disable()" ng-click="switch()">Switch</button>
+        <table  width="30%">
+            <ol   class="left">
+                <li ng-repeat-start="poi in poislist|orderBy:myValueFunction"
+                    ng-click="showdetails(poi)">{{poi.Name}}
+                </li>
+                <label ng-show="toShowCheck(poi)" class="main">Switch
+                    <input ng-model="poi.checked" type="checkbox" ng-change="change(poi)">
+                    <span class="geekmark"></span>
+                </label>
+                <div>
+                    <button class="btn"
+                            ng-click="Delete(poi)">-
+                    </button>
+                </div>
+                <img ng-src="{{poi.picture}}" ng-click="showdetails(poi)">
+
+                <div ng-repeat-end></div>
+            </ol>
+        </table>
+    </div>
+
+    <div class="center" ng-show="showPoi">
+        <br>
+        <h1>{{currpoiname}}</h1> <br>
+        <p>Number of views:{{currNumViews}}</p>
+        <P>Details: </P>
+        <p>{{currpoidetails}} </p>
+        <p>Rating: {{currRating}}</p>
+        <p>{{currcrit1}}</p>
+        <p>{{currcrit2}}</p>
+
+        <button ng-click="DeleteDiv()">Delete from favorites</button>
+        <br>
+
+        <button ng-click="retPrev()">return to my favorites</button>
+        <br>
+    </div>
+
 </div>
 
 <style>
-  .button {
-  background-color: #339999; 
-  border: none;
-  color: white;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  border-radius: 8px;
-  padding: 16px;
 
-}
-    .container {
-        position: relative;
-        width: 100%;
-        max-width: 400px;
+
+
+    .button {
+        background-color: #339999;
+        border: none;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: 8px;
+        padding: 16px;
+
     }
 
+
     .container img {
-        width: 100%;
-        height: auto;
+        width: auto;
+        height: 150px;
     }
 
     .container .btn {
         position: relative;
         top: 50px;
-        left: 93%;
+        left: 140px;
         transform: translate(-50%, -50%);
         -ms-transform: translate(-50%, -50%);
         background-color: #339999;
@@ -85,84 +97,83 @@
         vertical-align: middle;
     }
 
-
     .container .btn:hover {
         background-color: rgb(255, 255, 255);
         color: #339999;
 
     }
 
-    .main { 
-            display: block; 
-            position: relative; 
-            padding-left: 45px; 
-            margin-bottom: 15px; 
-            cursor: pointer; 
-            font-size: 20px; 
-        } 
-          
-        /* Hide the default checkbox */ 
-        input[type=checkbox] { 
-            visibility: hidden; 
-        } 
-          
-        /* Creating a custom checkbox 
-        based on demand */ 
-        .geekmark { 
-            position: absolute; 
-            top: 0; 
-            left: 0; 
-            height: 25px; 
-            width: 25px; 
-            background-color: #339999; 
-        } 
-          
-        /* Specify the background color to be 
-        shown when hovering over checkbox */ 
-        .main:hover input ~ .geekmark { 
-            background-color: #184949; 
-        } 
-          
-        /* Specify the background color to be 
-        shown when checkbox is active */ 
-        .main input:active ~ .geekmark { 
-            background-color: #339999; 
-        } 
-          
-        /* Specify the background color to be 
-        shown when checkbox is checked */ 
-        .main input:checked ~ .geekmark { 
-            background-color: #339999; 
-        } 
-          
-        /* Checkmark to be shown in checkbox */ 
-        /* It is not be shown when not checked */ 
-        .geekmark:after { 
-            content: ""; 
-            position: absolute; 
-            display: none; 
-        } 
-          
-        /* Display checkmark when checked */ 
-        .main input:checked ~ .geekmark:after { 
-            display: block; 
-        } 
-          
-        /* Styling the checkmark using webkit */ 
-        /* Rotated the rectangle by 45 degree and  
-        showing only two border to make it look 
-        like a tickmark */ 
-        .main .geekmark:after { 
-            left: 8px; 
-            bottom: 5px; 
-            width: 6px; 
-            height: 12px; 
-            border: solid white; 
-            border-width: 0 4px 4px 0; 
-            -webkit-transform: rotate(45deg); 
-            -ms-transform: rotate(45deg); 
-            transform: rotate(45deg); 
-        } 
+    .main {
+        display: block;
+        position: relative;
+        padding-left: 45px;
+        margin-bottom: 15px;
+        cursor: pointer;
+        font-size: 20px;
+    }
+
+    /* Hide the default checkbox */
+    input[type=checkbox] {
+        visibility: hidden;
+    }
+
+    /* Creating a custom checkbox
+    based on demand */
+    .geekmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        background-color: #339999;
+    }
+
+    /* Specify the background color to be
+    shown when hovering over checkbox */
+    .main:hover input ~ .geekmark {
+        background-color: #184949;
+    }
+
+    /* Specify the background color to be
+    shown when checkbox is active */
+    .main input:active ~ .geekmark {
+        background-color: #339999;
+    }
+
+    /* Specify the background color to be
+    shown when checkbox is checked */
+    .main input:checked ~ .geekmark {
+        background-color: #339999;
+    }
+
+    /* Checkmark to be shown in checkbox */
+    /* It is not be shown when not checked */
+    .geekmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Display checkmark when checked */
+    .main input:checked ~ .geekmark:after {
+        display: block;
+    }
+
+    /* Styling the checkmark using webkit */
+    /* Rotated the rectangle by 45 degree and
+    showing only two border to make it look
+    like a tickmark */
+    .main .geekmark:after {
+        left: 8px;
+        bottom: 5px;
+        width: 6px;
+        height: 12px;
+        border: solid white;
+        border-width: 0 4px 4px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
 
 </style>
 
