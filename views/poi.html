@@ -18,22 +18,34 @@
         </select>
         <button ng-click="sortButtonClick()">Click to sort by rank</button>
 
-        <table width="50%">
-        <ol class="center">
-
+        <table width="30%">
+        <ol class="left">
             <li ng-repeat-start="poi in poislist| filter:filterArray|filter:search|orderBy:myValueFunction"
-                ng-click="showdetails(poi)">{{poi.Name}}
+                ng-click="showdetails(poi)">___________________________________
             </li>
-            <div>
-                <button class="btn" ng-show="$root.connected"
-                        ng-click="addOrDelete(poi)">{{isClicked[poislist.indexOf(poi)]}}</button>
+            <div class="col-xs-6 col-sm-4 col-md-4 filtr-item" data-category="1">
+                <div class="mu-item-thumbonail_notInline">
+                    <img display="block" max-height="20px"  ng-src="{{poi.picture}}" ng-click="showdetails(poi)" class="img-responsive"  alt="image">
+                </div>
+                <div class="mu-filter-item-content">
+                    <h4 class="mu-filter-item-title" ng-click="showdetails(poi)">{{poi.Name}}</h4>
+                    <a class="mu-filter-imglink" ng-click="showdetails(poi)" title="Web Development"><i class="fa fa-search"></i></a>
+                </div>
+                <div>
+                    <button class="btn" ng-show="$root.connected"
+                            ng-click="addOrDelete(poi)">{{isClicked[poislist.indexOf(poi)]}}</button>
+                </div>
             </div>
-            <img height="150px" ng-src="{{poi.picture}}" ng-click="showdetails(poi)">
+
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
             <div ng-repeat-end></div>
+
         </ol>
         </table>
         <p ng-show="(poislist | filter:search).length == 0">No results :(</p>
     </div>
+
+
 
 
     <div ng-show="showPoi">
@@ -62,7 +74,7 @@
     .container .btn {
         position: relative;
         top: 50px;
-        left: 7%;
+        left: 0%;
         transform: translate(-50%, -50%);
         -ms-transform: translate(-50%, -50%);
         background-color: rgb(51, 153, 153);
