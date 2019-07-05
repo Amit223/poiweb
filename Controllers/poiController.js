@@ -143,7 +143,6 @@ angular.module("myApp")
                 //add
                 $scope.numSaved = $scope.numSaved + 1;
                 var obj = { username: $rootScope.user, pointname: poi.Name, index: $scope.numSaved };
-                console.log(obj);
                 poiService.addToFavorite(obj).then(function (response) {
                     if (response.status == 200) {
                         $scope.isClicked[$scope.poislist.indexOf(poi)] = "-";
@@ -155,7 +154,6 @@ angular.module("myApp")
                 //delete
                 $scope.numSaved = $scope.numSaved - 1;
                 var obj = { username: $rootScope.user, pointname: poi.Name };
-                console.log(obj);
                 poiService.deleteFromFavorite(obj).then(function (response) {
                     if (response.status == 200) {
                         $scope.isClicked[$scope.poislist.indexOf(poi)] = "+";
@@ -175,7 +173,6 @@ angular.module("myApp")
                     var favorites = response.data.sort(function (a, b) {
                         return parseFloat(a.Index) - parseFloat(b.Index);
                     });
-                    console.log(favorites);
                     //for each point in asendic order, give new index by order
                     var counter = 1;
                     for (var i = 0; i < favorites.length; i++) {
@@ -197,7 +194,6 @@ angular.module("myApp")
                 //add
                 $scope.numSaved = $scope.numSaved + 1;
                 var obj = { username: $rootScope.user, pointname: $scope.chosenPoi.Name, index: $scope.numSaved };
-                console.log(obj);
                 poiService.addToFavorite(obj).then(function (response) {
                     if (response.status == 200) {
                         $scope.isClicked[$scope.poislist.indexOf($scope.chosenPoi)] = "-";
@@ -211,7 +207,6 @@ angular.module("myApp")
                 //delete
                 $scope.numSaved = $scope.numSaved - 1;
                 var obj = { username: $rootScope.user, pointname: $scope.chosenPoi.Name };
-                console.log(obj);
                 poiService.deleteFromFavorite(obj).then(function (response) {
                     if (response.status == 200) {
                         $scope.isClicked[$scope.poislist.indexOf($scope.chosenPoi)] = "+";

@@ -212,8 +212,11 @@ app.post("/saveToFavorites/:obj", (req, res, next) => {
         }
 
     });
+    var date = new Date();
+    var dateInsert=date.toUTCString().substr(date.toUTCString().indexOf(",") + 2);
+    console.log(dateInsert);
 
-    var sql4 = "INSERT INTO User_Points (UserName, PointName,[Index]) " + "VALUES ('" + username + "', '" + pointname + "',"+ index+")";
+    var sql4 = "INSERT INTO User_Points (UserName, PointName,[Index],Date) " + "VALUES ('" + username + "', '" + pointname + "',"+ index+",'"+dateInsert+"')";
     DButilsAzure.execQuery(sql4).then(function (value2) {
         res.status(200).send("Success!");
 
@@ -234,6 +237,29 @@ app.post("/addCategoryToUser/:obj", (req, res, next) => {
 });
 
 
+app.get("/getCategoryFromUser/:obj", (req, res, next) => {
+    var obj = req.params['obj'];
+    var jsonObj = JSON.parse(obj);
+    var username = jsonObj.username;
+    var sql = "SELECT CategoryName FROM UserCategory WHERE UserName='"+ username + "'";
+    DButilsAzure.execQuery(sql).then(function (value2) {
+        res.status(200).send(value2);
+        next();
+    });
+});
+
+
+app.get("/getPOIByCategory/:obj", (req, res, next) => {
+    var obj = req.params['obj'];
+    var jsonObj = JSON.parse(obj);
+    var categoryname = jsonObj.categoryname;
+    var sql = "SELECT * FROM Points WHERE Category='"+ categoryname + "'";
+    DButilsAzure.execQuery(sql).then(function (value2) {
+        res.status(200).send(value2);
+        next();
+    });
+});
+
 app.post("/updateIndex/:obj", (req, res, next) => {
     var obj = req.params['obj'];
     var jsonObj = JSON.parse(obj);
@@ -244,7 +270,6 @@ app.post("/updateIndex/:obj", (req, res, next) => {
     DButilsAzure.execQuery(sql).then(function (value2) {
         res.status(200).send("Success!");
         next();
-        console.log("index="+ index)
     });
 });
 
@@ -297,7 +322,8 @@ app.get("/getFavoritePointsAll/:obj", (req, res, next) => {
     var sql = "SELECT PointName FROM User_Points WHERE UserName=" + "'" + username + "'";
     DButilsAzure.execQuery(sql).then(function (value) {
         if (value.length == 0) {
-            res.status(400).send("user doesn't exist or doesn't have points")
+            var points=new Array();
+            res.status(200).send(points)
             next();
         }
         else {
@@ -327,7 +353,8 @@ app.get("/getFavoritePoints/:obj", (req, res, next) => {
     var sql = "SELECT * FROM User_Points WHERE UserName=" + "'" + username + "'";
     DButilsAzure.execQuery(sql).then(function (value) {
         if (value.length == 0) {
-            res.status(400).send("user doesn't exist or doesn't have points")
+            var points=new Array();
+            res.status(200).send(points)
             next();
         }
         else {
@@ -338,15 +365,7 @@ app.get("/getFavoritePoints/:obj", (req, res, next) => {
         }
     });
 });
-//todo:don't know if need to do this?
-app.get("/getRecentSavedPoints/:obj", (req, res, next) => {
-    var points = new Array();
-    var obj = req.params['obj'];
-    var jsonObj = JSON.parse(obj);
-    var username = jsonObj.username;
 
-
-});
 
 app.get("/getPoints", (req, res, next) => {
     var sql = "SELECT * FROM Points";

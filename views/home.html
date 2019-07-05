@@ -1,6 +1,6 @@
-<div>
+<div  ng-controller="exploreController" >
 
-<div ng-controller="exploreController" ng-hide="$root.connected" data-ng-init="load()">
+<div  data-ng-init="load()" ng-hide="$root.connected">
         <div class="mu-portfolio-header">
                 <h2 class="mu-heading-title">Explore</h2>
                 <span class="mu-header-dot"></span>
@@ -24,5 +24,11 @@
 
 
 </div>
+<div  data-ng-init="load2()" ng-show="$root.connected">
+        <!-- liad part-->
+
+</div>
+
+
     
 </div>
