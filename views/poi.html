@@ -40,24 +40,10 @@
                     </div>
                 </div>
 
-            <li ng-repeat-start="poi in poislist| filter:filterArray|filter:search|orderBy:myValueFunction"
-                ng-click="showdetails(poi)">{{poi.Name}}
-            </li>
-            <div>
-                <button class="btn" ng-show="$root.connected"
-                        ng-click="addOrDelete(poi)">{{isClicked[poislist.indexOf(poi)]}}</button>
-            </div>
-            <img height="150px" ng-src="{{poi.picture}}" ng-click="showdetails(poi)">
-            <li>
-                    <button class="btn2" data-target="#formModal" data-toggle="modal" ng-click="updateSelected(poi)">
-                            Write Review to {{poi.Name}} </button>
-            </li>
-            <div ng-repeat-end></div>
-        </ol>
                 <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
                 <div ng-repeat-end></div>
-
-            </ol>
+        </ol>
+               
         </table>
         <p ng-show="(poislist | filter:search).length == 0">No results :(</p>
     </div>
