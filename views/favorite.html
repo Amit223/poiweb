@@ -26,11 +26,12 @@
             
                         </li>
                         <li>
-                                <button class="btn2" data-target="#formModal" data-toggle="modal" ng-click="updateSelected(poi)">
+                                <button class="button" data-target="#formModal" data-toggle="modal" ng-click="updateSelected(poi)">
                                         Write Review to {{poi.Name}} </button>
                         </li>
                         <li ng-repeat-end></li>
                     </ul>
+                    
                 </div>
             
                 <div ng-show="showPoi">
@@ -116,7 +117,7 @@
     .container .btn {
         position: relative;
         top: 50px;
-        left: 140px;
+        left: 180px;
         transform: translate(-50%, -50%);
         -ms-transform: translate(-50%, -50%);
         background-color: #339999;
