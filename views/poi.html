@@ -21,7 +21,7 @@
         <table width="30%">
             <ol class="left">
                 <li ng-repeat-start="poi in poislist| filter:filterArray|filter:search|orderBy:myValueFunction"
-                    ng-click="showdetails(poi)">___________________________________
+                    ng-click="showdetails(poi)">_____________________________________________________________________________
                 </li>
                 <div>
                         {{poi.Name}}
@@ -42,10 +42,10 @@
                         </button>
                     </div>
                 </div>
-                <li>
+                <div>
                         <button class="button" data-target="#formModal" data-toggle="modal" ng-click="updateSelected(poi)">
                                 Write Review to {{poi.Name}} </button>
-                </li>
+                </div>
                 <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
                 <div ng-repeat-end></div>
         </ol>

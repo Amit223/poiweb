@@ -8,7 +8,7 @@ angular.module("myApp")
 
 
             $scope.load = function () {
-                var token_ = $cookies.get('token')
+                var token_ = $cookies.get('token');
                 var obj = { token: token_ };
                 mainService.getToken(token_).then(function (response) {
 

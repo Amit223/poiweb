@@ -1,34 +1,81 @@
-<div  ng-controller="exploreController" >
+<div ng-controller="exploreController">
 
-<div  data-ng-init="load()" ng-hide="$root.connected">
+    <div data-ng-init="load()" ng-hide="$root.connected">
         <div class="mu-portfolio-header">
-                <h2 class="mu-heading-title">Explore</h2>
-                <span class="mu-header-dot"></span>
+            <h2 class="mu-heading-title">Explore</h2>
+            <span class="mu-header-dot"></span>
         </div>
         <ul>
 
-                <div ng-repeat-start="poi in poislist" class="col-xs-6 col-sm-4 col-md-4 filtr-item" data-category="1">
-                        <div class="mu-item-thumbonail">
-                                <img id="imgg" width="100%" height="100%" ng-src="{{poi.picture}}" ng-click="showdetails(poi)" class="img-responsive"  alt="image">
+            <div ng-repeat-start="poi in poislist" class="col-xs-6 col-sm-4 col-md-4 filtr-item" data-category="1">
+                <div class="mu-item-thumbonail">
+                    <img id="imgg" width="100%" height="100%" ng-src="{{poi.picture}}" ng-click="showdetails(poi)"
+                         class="img-responsive" alt="image">
 
-                        </div>
-                        <div class="mu-filter-item-content">
-                                <h4 class="mu-filter-item-title" ng-click="showdetails(poi)">{{poi.Name}}</h4>
-                                <a class="mu-filter-imglink" ng-click="showdetails(poi)" title="Web Development"><i class="fa fa-search"></i></a>
-                        </div>
                 </div>
-                <div ng-repeat-end></div>
+                <div class="mu-filter-item-content">
+                    <h4 class="mu-filter-item-title" ng-click="showdetails(poi)">{{poi.Name}}</h4>
+                    <a class="mu-filter-imglink" ng-click="showdetails(poi)" title="Web Development"><i
+                            class="fa fa-search"></i></a>
+                </div>
+            </div>
+            <div ng-repeat-end></div>
         </ul>
         <p ng-show="poislist.length == 0">No points with rank 5 and above</p>
 
 
-
-</div>
-<div  data-ng-init="load2()" ng-show="$root.connected">
+    </div>
+    <div data-ng-init="load2()" ng-show="$root.connected">
         <!-- liad part-->
+        <div>
+            <ul>
 
-</div>
+                <p>Top Ranked Points</p>
+                <div ng-repeat-start="point in topRankedPoints" class="col-xs-6 col-sm-4 col-md-4 filtr-item" data-category="1">
+                    <label>{{point.Name}}</label>
+                    <div class="mu-item-thumbonail">
+                        <img width="100%" height="100%" ng-src="{{point.picture}}" ng-click="showdetails44(point)"
+                             class="img-responsive" alt="image">
 
+                    </div>
+                    <div class="mu-filter-item-content">
+                        <h4 class="mu-filter-item-title" ng-click="showdetails44(point)">{{point.Name}}</h4>
+                        <a class="mu-filter-imglink" ng-click="showdetails44(point)" title="Web Development"><i
+                                class="fa fa-search"></i></a>
+                    </div>
+                </div>
+                <div ng-repeat-end></div>
+            </ul>
+        </div>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        <div>
+            <button ng-click="load2()">Last Saved Favorites</button>
+        </div>
+        <div>
+            <ul>
+                <div ng-repeat-start="point in mostRecentFavPoints" class="col-xs-6 col-sm-4 col-md-4 filtr-item" data-category="1">
+                    <label>{{point.PointName}}</label>
+                    <div class="mu-item-thumbonail">
+                        <img width="100%" height="100%" ng-src="{{point.picture}}" ng-click="showdetails33(point)"
+                             class="img-responsive" alt="image">
 
-    
+                    </div>
+                    <div class="mu-filter-item-content">
+                        <h4 class="mu-filter-item-title" ng-click="showdetails33(point)">{{point.PointName}}</h4>
+                        <a class="mu-filter-imglink" ng-click="showdetails33(point)" title="Web Development"><i
+                                class="fa fa-search"></i></a>
+                    </div>
+                </div>
+                <div ng-repeat-end></div>
+            </ul>
+        </div>
+
+        <!--<div>-->
+        <!--<div ng-repeat="point in favoritePointsLastSaved">-->
+        <!--<a href="poi.html">-->
+        <!--<img src="point.picture">-->
+        <!--</a>-->
+        <!--</div>-->
+        <!--</div>-->
+    </div>
 </div>
