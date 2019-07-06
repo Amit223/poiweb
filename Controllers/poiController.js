@@ -129,10 +129,10 @@ angular.module("myApp")
 
         function compare(a, b) {
             if (a.Date < b.Date) {
-                return -1;
+                return 1;
             }
             if (a.Date > b.Date) {
-                return 1;
+                return -1;
             }
             return 0;
         }
@@ -220,5 +220,45 @@ angular.module("myApp")
             }
 
         };
+
+
+
+        //reviews
+
+        
+        //review
+        $scope.updateSelected=function(poi){
+            $scope.selectedReviewPoi=poi;
+
+        }
+
+        $scope.post=function(){
+            var answer=0;
+            if($scope.review){
+                answer=answer+2;
+                var date_=new Date();
+                var obj={pointname:$scope.selectedReviewPoi.Name, ciritisizm:$scope.review, date:date_.toUTCString().substr(date_.toUTCString().indexOf(",") + 2)}
+                poiService.addReview(obj).then(function(response){
+                })
+            }
+            if($scope.rank){
+                answer=answer+3;
+                var obj={pointname:$scope.selectedReviewPoi.Name, rank:$scope.rank};
+                poiService.Rank(obj).then(function(response){
+                });
+
+            }
+            var msg;
+            if(answer===0)
+                msg="in order to post review or rank tou need to fill those fields!"
+            else if(answer===2)
+                msg="New review was added! Thank you for your time."
+            else if(answer===3)
+                msg="the rank was updated! Thank you for your time."
+            else//5
+                msg="New review was added and the rank was updated! Thank you for your time."
+            window.alert(msg);
+        }
+
 
     }]);

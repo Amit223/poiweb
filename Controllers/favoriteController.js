@@ -5,9 +5,9 @@ angular.module("myApp")
         $scope.load = function () {
             $scope.isClickedCat = false;
             $scope.isClickedSorted = false;
+            $scope.isClicked = true;//is sorted by user's order
 
             var token_ = $cookies.get('token')
-            var obj = { token: token_ };
             mainService.getToken(token_).then(function (response) {
                 if (response.status = 200 && response.data != "X") {
                     $scope.username = response.data;
@@ -18,7 +18,6 @@ angular.module("myApp")
         }
 
         //switch points
-        $scope.isClicked = true;//is sorted by user's order
         $scope.numChecked = 0;
         $scope.toShowCheck = function (poi) {
             if ($scope.isClicked && $scope.numChecked < 2) {
@@ -59,15 +58,16 @@ angular.module("myApp")
             var obj1={username:$scope.username, pointname:poi1.Name,index:index2 };
             var obj2={username:$scope.username, pointname:poi2.Name,index:index1 };
             favoriteService.updateIndex(obj1).then(function(response){
-                console.log(obj1);
             });
             favoriteService.updateIndex(obj2).then(function(response){
-                console.log(obj2);
 
             });
             //update in pois
             $scope.poislist[$scope.poislist.indexOf(poi1)].Index=index2;
             $scope.poislist[$scope.poislist.indexOf(poi2)].Index=index1;
+            $scope.poislist[$scope.poislist.indexOf(poi1)].checked=false;
+            $scope.poislist[$scope.poislist.indexOf(poi2)].checked=false;
+            $scope.numChecked=0;
 
 
         }
@@ -107,6 +107,7 @@ angular.module("myApp")
 
 
                     }
+
                     //= tempPOI;
                 })
                 .catch((err) => {
@@ -123,6 +124,7 @@ angular.module("myApp")
                     picture: pic, Category: cat, Index: index_, checked: isChecked
                 }
                 $scope.poislist.push(tempsinglepoi);
+        
             }
             catch (rejectedValue) {
                 // …
@@ -170,10 +172,10 @@ angular.module("myApp")
 
         function compare(a, b) {
             if (a.Date < b.Date) {
-                return -1;
+                return 1;
             }
             if (a.Date > b.Date) {
-                return 1;
+                return -1;
             }
             return 0;
         }
@@ -214,17 +216,22 @@ angular.module("myApp")
         $scope.myValueFunction = function (poi) {
             if ($scope.isClickedSorted) {
                 $scope.isClickedCat = false;
+                $scope.isClicked = false;
                 return -poi.Rank;
             }
             else if ($scope.isClickedCat) {
                 $scope.isClickedSorted = false;
+                $scope.isClicked = false;
                 return poi.Category;
             }
-            else {
+            else if($scope.isClicked) {
+                $scope.isClickedCat = false;
+                $scope.isClickedSorted = false;
 
                 return poi.Index;
 
             }
+            else return 0;
         };
 
 
@@ -236,7 +243,6 @@ angular.module("myApp")
                     var favorites = response.data.sort(function (a, b) {
                         return parseFloat(a.Index) - parseFloat(b.Index);
                     });
-                    console.log(favorites);
                     //for each point in asendic order, give new index by order
                     var counter = 1;
                     for (var i = 0; i < favorites.length; i++) {
@@ -259,10 +265,12 @@ angular.module("myApp")
             //delete
             $scope.numSaved = $scope.numSaved - 1;
             var obj = { username: $rootScope.user, pointname: poi.Name };
-            console.log(obj);
             favoriteService.deleteFromFavorite(obj).then(function (response) {
                 if (response.status == 200) {
                     $rootScope.numFave = $rootScope.numFave - 1;
+                    if(poi.checked){
+                        $scope.numChecked =$scope.numChecked -1;
+                    }
                 }
             });
             //update indexes
@@ -279,10 +287,12 @@ angular.module("myApp")
             //delete
             $scope.numSaved = $scope.numSaved - 1;
             var obj = { username: $rootScope.user, pointname: $scope.chosenPoi.Name };
-            console.log(obj);
             favoriteService.deleteFromFavorite(obj).then(function (response) {
                 if (response.status == 200) {
                     $rootScope.numFave = $rootScope.numFave - 1;
+                    if($scope.chosenPoi.checked){
+                        $scope.numChecked =$scope.numChecked -1;
+                    }
                 }
             });
             //update indexes
@@ -294,5 +304,77 @@ angular.module("myApp")
 
         };
 
+        //review
+        $scope.updateSelected=function(poi){
+            $scope.selectedReviewPoi=poi;
 
+        }
+
+        $scope.post=function(){
+            var answer=0;
+            if($scope.review){
+                answer=answer+2;
+                var date_=new Date();
+                var obj={pointname:$scope.selectedReviewPoi.Name, ciritisizm:$scope.review, date:date_.toUTCString().substr(date_.toUTCString().indexOf(",") + 2)}
+                favoriteService.addReview(obj).then(function(response){
+                })
+            }
+            if($scope.rank){
+                answer=answer+3;
+                var obj={pointname:$scope.selectedReviewPoi.Name, rank:$scope.rank};
+                favoriteService.Rank(obj).then(function(response){
+                });
+
+            }
+            var msg;
+            if(answer===0)
+                msg="in order to post review or rank tou need to fill those fields!"
+            else if(answer===2)
+                msg="New review was added! Thank you for your time."
+            else if(answer===3)
+                msg="the rank was updated! Thank you for your time."
+            else//5
+                msg="New review was added and the rank was updated! Thank you for your time."
+            window.alert(msg);
+        }
+
+
+/**
+ * 
+        $scope.status = '  ';
+    $scope.customFullscreen = false;
+  
+    $scope.showAdvanced = function(ev,poi) {
+        console.log(poi.Name)
+        $mdDialog.show({
+          controller: DialogController,
+          templateUrl: 'dialog1.tmpl.html',
+          parent: angular.element(document.body),
+          targetEvent: ev,
+          clickOutsideToClose:true,
+          fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+        })
+        .then(function(answer) {
+          $scope.status = 'You said the information was "' + answer + '".';
+        }, function() {
+          $scope.status = 'You cancelled the dialog.';
+        });
+      };
+    
+      
+    
+      function DialogController($scope, $mdDialog) {
+        $scope.hide = function() {
+          $mdDialog.hide();
+        };
+    
+        $scope.cancel = function() {
+          $mdDialog.cancel();
+        };
+    
+        $scope.answer = function(answer) {
+          $mdDialog.hide(answer);
+        };
+      }
+ */
     }]);

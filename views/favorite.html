@@ -1,59 +1,105 @@
-<div class="container"  ng-controller="favoriteController" data-ng-init="load()">
-            <h2>Favorite Points of Interest:</h2>
-            <div ng-hide="showPoi">
-                <button class="button" ng-click="sortButtonClick()">sort by rank</button><br><br>
-                <button class="button" ng-click="sortButtonClickCategory()">sort by category</button><br><br>
-                <button class="button" ng-click="sortButtonClickRegular()">chosen order</button><br><br>
+<div ng-controller="favoriteController">
 
-                <p>In order to switch see points by your chocen order, choose 2 point and then press "Switch"</p>
-                <br>
-                <button class="button"ng-disabled="disable()" ng-click="switch()">Switch</button>
-                <ul>
-                    <li ng-repeat-start="poi in poislist|orderBy:myValueFunction"
-                        ng-click="showdetails(poi)">{{poi.Name}}</li>
-                        <label ng-show="toShowCheck(poi)" class="main">Switch
-                            <input ng-model="poi.checked" type="checkbox" ng-change="change(poi)"> 
-                            <span class="geekmark"></span> 
-                        </label> 
-                    <li><button class="btn"
-                            ng-click="Delete(poi)">-</button></li>
-                    <img ng-src="{{poi.picture}}" ng-click="showdetails(poi)">
-                   
-                    <li ng-repeat-end></li>
-                </ul>
-            </div>
+        <div class="container" data-ng-init="load()">
+                <h2>Favorite Points of Interest:</h2>
+                <div ng-hide="showPoi">
+                    <button class="button" ng-click="sortButtonClick()">sort by rank</button><br><br>
+                    <button class="button" ng-click="sortButtonClickCategory()">sort by category</button><br><br>
+                    <button class="button" ng-click="sortButtonClickRegular()">chosen order</button><br><br>
             
-            <div ng-show="showPoi" >
-                <br>
-                <h1>{{currpoiname}}</h1> <br>
-                <p>Number of views:{{currNumViews}}</p>
-                <P>Details: </P>
-                <p>{{currpoidetails}} </p>
-                <p>Rating: {{currRating}}</p>
-                <p>{{currcrit1}}</p>
-                <p>{{currcrit2}}</p>
-    
-                <button ng-click="DeleteDiv()" >Delete from favorites</button><br>
-    
-                <button ng-click="retPrev()">return to my favorites</button>
-                <br>
-        </div>
-    
+                    <p>In order to switch see points by your chocen order, choose 2 point and then press "Switch"</p>
+                    <br>
+                    <button class="button" ng-disabled="disable()" ng-click="switch()">Switch</button>
+                    <ul>
+                        <li ng-repeat-start="poi in poislist|orderBy:myValueFunction" ng-click="showdetails(poi)">{{poi.Name}}
+                        <label ng-show="toShowCheck(poi)" class="main">Switch
+                                <input ng-model="poi.checked" type="checkbox" ng-change="change(poi)">
+                                <span class="geekmark"></span>
+                            </label>
+                        </li>
+                        <li>
+                                <button class="btn" ng-click="Delete(poi)">-</button>
+            
+                        </li>
+                        <li>
+                                <img ng-src="{{poi.picture}}" ng-click="showdetails(poi)">
+            
+                        </li>
+                        <li>
+                                <button class="btn2" data-target="#formModal" data-toggle="modal" ng-click="updateSelected(poi)">
+                                        Write Review to {{poi.Name}} </button>
+                        </li>
+                        <li ng-repeat-end></li>
+                    </ul>
+                </div>
+            
+                <div ng-show="showPoi">
+                    <br>
+                    <h1>{{currpoiname}}</h1> <br>
+                    <p>Number of views:{{currNumViews}}</p>
+                    <P>Details: </P>
+                    <p>{{currpoidetails}} </p>
+                    <p>Rating: {{currRating}}</p>
+                    <p>{{currcrit1}}</p>
+                    <p>{{currcrit2}}</p>
+            
+                    <button ng-click="DeleteDiv()">Delete from favorites</button><br>
+            
+                    <button ng-click="retPrev()">return to my favorites</button>
+                    <br>
+                </div>
+            
+            </div>
+            <div class="modal fade" id="formModal" tabindex="-1" ng-controller="favoriteController">
+                <div class="modal-dialog ">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button class="close" data-dismiss="modal">&times;</button>
+                            <h3 class="modal-title">Write a Review to{{selectedReviewPoi.Name}}!</h3>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label for="InputReview" placeholder="Review..."></label>Write a Review</label><br>
+                                    <textarea ng-model="review" class="form-controll" type="text" id="inputReview"  cols="40" rows="5"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="InputRank">Rank</label>
+                                    <select ng-model="rank" id="InputRank">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
+                                </div>
+            
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn2" ng-click="post()">Post Review</button>
+                            <button class="btn2" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 </div>
 
-<style>
-  .button {
-  background-color: #339999; 
-  border: none;
-  color: white;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  border-radius: 8px;
-  padding: 16px;
 
-}
+<style>
+    .button {
+        background-color: #339999;
+        border: none;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: 8px;
+        padding: 16px;
+
+    }
+
     .container {
         position: relative;
         width: 100%;
@@ -92,77 +138,103 @@
 
     }
 
-    .main { 
-            display: block; 
-            position: relative; 
-            padding-left: 45px; 
-            margin-bottom: 15px; 
-            cursor: pointer; 
-            font-size: 20px; 
-        } 
-          
-        /* Hide the default checkbox */ 
-        input[type=checkbox] { 
-            visibility: hidden; 
-        } 
-          
-        /* Creating a custom checkbox 
-        based on demand */ 
-        .geekmark { 
-            position: absolute; 
-            top: 0; 
-            left: 0; 
-            height: 25px; 
-            width: 25px; 
-            background-color: #339999; 
-        } 
-          
-        /* Specify the background color to be 
-        shown when hovering over checkbox */ 
-        .main:hover input ~ .geekmark { 
-            background-color: #184949; 
-        } 
-          
-        /* Specify the background color to be 
-        shown when checkbox is active */ 
-        .main input:active ~ .geekmark { 
-            background-color: #339999; 
-        } 
-          
-        /* Specify the background color to be 
-        shown when checkbox is checked */ 
-        .main input:checked ~ .geekmark { 
-            background-color: #339999; 
-        } 
-          
-        /* Checkmark to be shown in checkbox */ 
-        /* It is not be shown when not checked */ 
-        .geekmark:after { 
-            content: ""; 
-            position: absolute; 
-            display: none; 
-        } 
-          
-        /* Display checkmark when checked */ 
-        .main input:checked ~ .geekmark:after { 
-            display: block; 
-        } 
-          
-        /* Styling the checkmark using webkit */ 
-        /* Rotated the rectangle by 45 degree and  
+    .main {
+        display: block;
+        position: relative;
+        padding-left: 45px;
+        margin-bottom: 15px;
+        cursor: pointer;
+        font-size: 20px;
+    }
+
+    /* Hide the default checkbox */
+    input[type=checkbox] {
+        visibility: hidden;
+    }
+
+    /* Creating a custom checkbox 
+        based on demand */
+    .geekmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        background-color: #339999;
+    }
+
+    /* Specify the background color to be 
+        shown when hovering over checkbox */
+    .main:hover input~.geekmark {
+        background-color: #184949;
+    }
+
+    /* Specify the background color to be 
+        shown when checkbox is active */
+    .main input:active~.geekmark {
+        background-color: #339999;
+    }
+
+    /* Specify the background color to be 
+        shown when checkbox is checked */
+    .main input:checked~.geekmark {
+        background-color: #339999;
+    }
+
+    /* Checkmark to be shown in checkbox */
+    /* It is not be shown when not checked */
+    .geekmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Display checkmark when checked */
+    .main input:checked~.geekmark:after {
+        display: block;
+    }
+
+    /* Styling the checkmark using webkit */
+    /* Rotated the rectangle by 45 degree and  
         showing only two border to make it look 
-        like a tickmark */ 
-        .main .geekmark:after { 
-            left: 8px; 
-            bottom: 5px; 
-            width: 6px; 
-            height: 12px; 
-            border: solid white; 
-            border-width: 0 4px 4px 0; 
-            -webkit-transform: rotate(45deg); 
-            -ms-transform: rotate(45deg); 
-            transform: rotate(45deg); 
-        } 
+        like a tickmark */
+    .main .geekmark:after {
+        left: 8px;
+        bottom: 5px;
+        width: 6px;
+        height: 12px;
+        border: solid white;
+        border-width: 0 4px 4px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
 
+    .dialogdemoBasicUsage #popupContainer {
+        position: relative;
+    }
+
+    .dialogdemoBasicUsage .footer {
+        width: 100%;
+        text-align: center;
+        margin-left: 20px;
+    }
+
+    .dialogdemoBasicUsage .footer,
+    .dialogdemoBasicUsage .footer>code {
+        font-size: 0.8em;
+        margin-top: 50px;
+    }
+
+    .dialogdemoBasicUsage button {
+        width: 200px;
+    }
+
+    .dialogdemoBasicUsage div#status {
+        color: #c60008;
+    }
+
+    .dialogdemoBasicUsage .dialog-demo-prerendered md-checkbox {
+        margin-bottom: 0;
+    }
 </style>
-
