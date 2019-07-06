@@ -23,6 +23,9 @@
                 <li ng-repeat-start="poi in poislist| filter:filterArray|filter:search|orderBy:myValueFunction"
                     ng-click="showdetails(poi)">___________________________________
                 </li>
+                <div>
+                        {{poi.Name}}
+                </div>
                 <div class="col-xs-6 col-sm-4 col-md-4 filtr-item" data-category="1">
                     <div class="mu-item-thumbonail_notInline">
                         <img display="block" max-height="20px" ng-src="{{poi.picture}}" ng-click="showdetails(poi)"
@@ -39,25 +42,14 @@
                         </button>
                     </div>
                 </div>
-
-            <li ng-repeat-start="poi in poislist| filter:filterArray|filter:search|orderBy:myValueFunction"
-                ng-click="showdetails(poi)">{{poi.Name}}
-            </li>
-            <div>
-                <button class="btn" ng-show="$root.connected"
-                        ng-click="addOrDelete(poi)">{{isClicked[poislist.indexOf(poi)]}}</button>
-            </div>
-            <img height="150px" ng-src="{{poi.picture}}" ng-click="showdetails(poi)">
-            <li>
-                    <button class="btn2" data-target="#formModal" data-toggle="modal" ng-click="updateSelected(poi)">
-                            Write Review to {{poi.Name}} </button>
-            </li>
-            <div ng-repeat-end></div>
-        </ol>
+                <li>
+                        <button class="button" data-target="#formModal" data-toggle="modal" ng-click="updateSelected(poi)">
+                                Write Review to {{poi.Name}} </button>
+                </li>
                 <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
                 <div ng-repeat-end></div>
-
-            </ol>
+        </ol>
+               
         </table>
         <p ng-show="(poislist | filter:search).length == 0">No results :(</p>
     </div>
@@ -107,8 +99,8 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn2" ng-click="post()">Post Review</button>
-                        <button class="btn2" data-dismiss="modal">Cancel</button>
+                        <button class="button" ng-click="post()">Post Review</button>
+                        <button class="button" data-dismiss="modal">Cancel</button>
                     </div>
                 </div>
             </div>
@@ -117,6 +109,20 @@
 
 
     <style>
+
+.button {
+        background-color: #339999;
+        border: none;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: 8px;
+        padding: 16px;
+
+    }
+
         .center {
             text-align: center;
             list-style-position: inside;

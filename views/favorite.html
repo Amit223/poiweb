@@ -1,5 +1,8 @@
 <div ng-controller="favoriteController">
-
+    <div  class="mu-portfolio-header">
+        <h2 class="mu-heading-title">Favorite Points of Interest:</h2>
+        <span class="mu-header-dot"></span>
+    </div>
         <div class="container" data-ng-init="load()">
                 <h2>Favorite Points of Interest:</h2>
                 <div ng-hide="showPoi">
@@ -10,27 +13,30 @@
                     <p>In order to switch see points by your chocen order, choose 2 point and then press "Switch"</p>
                     <br>
                     <button class="button" ng-disabled="disable()" ng-click="switch()">Switch</button>
-                    <ul>
-                        <li ng-repeat-start="poi in poislist|orderBy:myValueFunction" ng-click="showdetails(poi)">{{poi.Name}}
-                        <label ng-show="toShowCheck(poi)" class="main">Switch
+            
+                    <table  width="30%">
+                        <ol   class="left">
+                            <li ng-repeat-start="poi in poislist|orderBy:myValueFunction"
+                                ng-click="showdetails(poi)">{{poi.Name}}
+                            </li>
+                            <label ng-show="toShowCheck(poi)" class="main">Switch
                                 <input ng-model="poi.checked" type="checkbox" ng-change="change(poi)">
                                 <span class="geekmark"></span>
                             </label>
-                        </li>
-                        <li>
-                                <button class="btn" ng-click="Delete(poi)">-</button>
-            
-                        </li>
-                        <li>
-                                <img ng-src="{{poi.picture}}" ng-click="showdetails(poi)">
-            
-                        </li>
-                        <li>
-                                <button class="btn2" data-target="#formModal" data-toggle="modal" ng-click="updateSelected(poi)">
+                            <div>
+                                <button class="btn"
+                                        ng-click="Delete(poi)">-
+                                </button>
+                            </div>
+                            <img ng-src="{{poi.picture}}" ng-click="showdetails(poi)">
+                            <div>
+                                <button class="button" data-target="#formModal" data-toggle="modal" ng-click="updateSelected(poi)">
                                         Write Review to {{poi.Name}} </button>
-                        </li>
-                        <li ng-repeat-end></li>
-                    </ul>
+                                </div>
+                            <div ng-repeat-end></div>
+                        </ol>
+                    </table>
+                    
                 </div>
             
                 <div ng-show="showPoi">
@@ -116,7 +122,7 @@
     .container .btn {
         position: relative;
         top: 50px;
-        left: 140px;
+        left: 180px;
         transform: translate(-50%, -50%);
         -ms-transform: translate(-50%, -50%);
         background-color: #339999;
