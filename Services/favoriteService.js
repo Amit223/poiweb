@@ -25,7 +25,7 @@ angular.module('myApp').service('favoriteService', function ($http) {
                 "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
                 "Access-Control-Allow-Headers": "*",
                 "Access-Control-Max-Age": "*",
-                "Content-Type": "application/json",
+                "Content-Type": "application/json"
             },
             data: JSON.stringify(obj)
         };
