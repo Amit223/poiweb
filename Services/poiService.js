@@ -143,4 +143,38 @@ angular.module('myApp').service('poiService', function ($http) {
         };
         return $http(req);
     }
+
+    //critiszm
+    self.addReview=function(obj){
+        var req = {
+            method: 'POST',
+            url: 'http://localhost:3000/criticizePoint/'+ JSON.stringify(obj),
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+                "Access-Control-Allow-Headers": "*",
+                "Access-Control-Max-Age": "*",
+                "Content-Type": "application/json",
+            },
+            data: JSON.stringify(obj)
+        };
+        return $http(req);
+    }
+
+    self.Rank=function(obj){
+        var req = {
+            method: 'POST',
+            url: 'http://localhost:3000/rankPoint/'+ JSON.stringify(obj),
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+                "Access-Control-Allow-Headers": "*",
+                "Access-Control-Max-Age": "*",
+                "Content-Type": "application/json",
+            },
+            data: JSON.stringify(obj)
+        };
+        return $http(req);
+    }
+
 });

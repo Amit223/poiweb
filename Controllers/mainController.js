@@ -11,8 +11,6 @@ angular.module("myApp")
                 var token_ = $cookies.get('token')
                 var obj = { token: token_ };
                 mainService.getToken(token_).then(function (response) {
-                    var date = new Date();
-                    console.log(date.toUTCString().substr(date.toUTCString().indexOf(",") + 2));
 
                     if (response.status = 200 && response.data != "X") {
                         $scope.currName = "Hello " + response.data;

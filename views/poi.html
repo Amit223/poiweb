@@ -40,6 +40,20 @@
                     </div>
                 </div>
 
+            <li ng-repeat-start="poi in poislist| filter:filterArray|filter:search|orderBy:myValueFunction"
+                ng-click="showdetails(poi)">{{poi.Name}}
+            </li>
+            <div>
+                <button class="btn" ng-show="$root.connected"
+                        ng-click="addOrDelete(poi)">{{isClicked[poislist.indexOf(poi)]}}</button>
+            </div>
+            <img height="150px" ng-src="{{poi.picture}}" ng-click="showdetails(poi)">
+            <li>
+                    <button class="btn2" data-target="#formModal" data-toggle="modal" ng-click="updateSelected(poi)">
+                            Write Review to {{poi.Name}} </button>
+            </li>
+            <div ng-repeat-end></div>
+        </ol>
                 <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
                 <div ng-repeat-end></div>
 
@@ -65,6 +79,41 @@
         <button ng-click="retPrev()">return to main page</button>
         <br>
     </div>
+
+    <div class="modal fade" id="formModal" tabindex="-1" ng-controller="favoriteController">
+            <div class="modal-dialog ">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button class="close" data-dismiss="modal">&times;</button>
+                        <h3 class="modal-title">Write a Review to{{selectedReviewPoi.Name}}!</h3>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="InputReview" placeholder="Review..."></label>Write a Review</label><br>
+                                <textarea ng-model="review" class="form-controll" type="text" id="inputReview"  cols="40" rows="5"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="InputRank">Rank</label>
+                                <select ng-model="rank" id="InputRank">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+        
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn2" ng-click="post()">Post Review</button>
+                        <button class="btn2" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
 
 
     <style>
@@ -97,6 +146,8 @@
             background-color: #ffffff;
             color: rgb(51, 153, 153);
 
+    }
+
         }
     </style>
-</div>
+

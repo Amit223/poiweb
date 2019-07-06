@@ -1,5 +1,6 @@
 
 let app1 = angular.module('myApp', ['ngRoute','ngCookies']);
+
 app1.config(['$qProvider', function ($qProvider) {
     $qProvider.errorOnUnhandledRejections(false);
 }]);
