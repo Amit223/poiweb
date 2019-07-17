@@ -113,20 +113,8 @@ angular.module("myApp")
                 });
 
                 userLastFavorites.sort(compare);
-                var favPoint1 = userLastFavorites[userLastFavorites.length - 1];
-                var favPoint2 = userLastFavorites[userLastFavorites.length - 2];
-
-                for (var i = 0; i < userLastFavoritesWithInfo.length; i++) {
-                    if (userLastFavoritesWithInfo[i].Name === favPoint1.PointName) {
-                        favPoint1.picture = userLastFavoritesWithInfo[i].picture;
-                        favPoint1.Name = favPoint1.PointName;
-                    }
-                    if (userLastFavoritesWithInfo[i].Name === favPoint2.PointName) {
-                        favPoint2.picture = userLastFavoritesWithInfo[i].picture;
-                        favPoint2.Name = favPoint2.PointName;
-
-                    }
-                }
+                var favPoint1 = userLastFavoritesWithInfo[userLastFavorites.length - 1];
+                var favPoint2 = userLastFavoritesWithInfo[userLastFavorites.length - 2];
                 ans.push(favPoint1);
                 ans.push(favPoint2);
                 $scope.mostRecentFavPoints = ans;
